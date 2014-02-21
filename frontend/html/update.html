@@ -1,0 +1,56 @@
+<html lang="en" ng-app>
+<!-- css -->
+<link href="../frontend/css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="../frontend/css/login/login.css" rel="stylesheet">
+
+<ng-include src="'../frontend/html/partials/headerPartial.html'"></ng-include>
+<body>
+	<div class="navbar navbar-default" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">lakehouse</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="active"><a href="/home">Home</a></li>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div>
+	<section ng-init="initializeUpdate({{json user}})" ng-controller="LoginController">			
+		<div class="login-container">	
+			<form ng-submit="updateUser()"  class="form-signin">
+				<h2 class="form-signin-heading">Update Info</h2>
+				<div class="input-group">
+					<span class="input-group-addon">First name</span>
+					<input type="text" class="form-control" required="" autofocus="" ng-model="first_name">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">Last name</span>
+					<input type="text" class="form-control" required="" autofocus="" ng-model="last_name">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">Email address</span>
+					<input type="text" class="form-control" required="" autofocus="" ng-model="email_address">
+				</div>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+			</form>
+			<br><br>
+			  <button ng-click="deleteUser()" type="button" class="btn btn-lg btn-primary btn-block btn-danger" type="submit">Delete User</button>
+		</div> 
+	</section>
+</body>
+
+<!-- js -->
+<script src="../node_modules/underscore/underscore.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="../frontend/js/bootstrap/bootstrap.min.js"></script>
+<script src="../frontend/js/controllers/login.js"></script>
+</html>

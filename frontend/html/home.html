@@ -1,0 +1,62 @@
+<html lang="en" ng-app>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Home</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../frontend/css/clndr.css" rel="stylesheet">
+    <link href="../frontend/css/bootstrap/bootstrap.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">lakehouse</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/user/update">Update User</a></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="starter-template">
+        <h1>Bootstrap starter template</h1>
+        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+      </div>
+
+    </div><!-- /.container -->
+    <div class="clndr-container">
+      <div class="container" id="calendar"> </div>  
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../frontend/js/bootstrap/bootstrap.min.js"></script>
+    <script src="../frontend/js/controllers/home.js"></script>
+    <script src="../node_modules/underscore/underscore-min.js"></script>
+    <script src="../node_modules/moment/min/moment.min.js"></script>
+    <script src="../frontend/js/clndr/clndr.js"></script>
+
+
+</body></html>

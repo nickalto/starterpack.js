@@ -1,0 +1,7 @@
+.login-container {
+  max-width: 400px;
+  margin: 0 auto; }
+  .login-container input[type=text] {
+    padding-bottom: 5px; }
+  .login-container input[type=password] {
+    padding-top: 5px; }
