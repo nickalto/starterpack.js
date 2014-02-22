@@ -1,7 +1,4 @@
-var path 	= require('path'),
-express 	= require('express'),
-hbs 		= require("hbs"),
-dirname 	= process.env.PWD;
+var dirname = process.env.PWD;
 
 exports.home = function(req, res) {
 	res.sendfile(dirname + '/frontend/html/home.html');

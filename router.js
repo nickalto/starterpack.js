@@ -1,21 +1,17 @@
 // Module dependencies
 var express	= require('express'),
+app 		= express(),
 https	    = require('https'),
-http        = require('http');
+http        = require('http'),
+app_routes 	= require('./backend/routes/application'),
+auth_routes	= require('./backend/routes/authentication'),
+config 		= require('./config/config').configure(app);
 
-//include routes
-var appRoutes 	= require('./backend/routes/application');
-var authRoutes	= require('./backend/routes/authentication');
-
-var app = express();
-var appConfig = require('./config/config');
-appConfig.configure(app);
-
-app.get('(/|/login)', appRoutes.login);
-app.get('/home', appRoutes.home);
-app.get('/create', appRoutes.createUser);
-app.get('/logout', appRoutes.logout);
-app.get('/reset', appRoutes.reset);
+app.get('(/|/login)', app_routes.login);
+app.get('/home', app_routes.home);
+app.get('/create', app_routes.createUser);
+app.get('/logout', app_routes.logout);
+app.get('/reset', app_routes.reset);
 
 // //User Routes
 // app.post('/user/create', userRoutes.create);
@@ -24,8 +20,7 @@ app.get('/reset', appRoutes.reset);
 // app.post('/user/update', isAuthenticated, userRoutes.update);
 // app.post('/user/delete', isAuthenticated, userRoutes.delete);
 
-app.get('*', appRoutes.catchall);
-
+app.get('*', app_routes.catchall);
 
 http.createServer(app).listen(3000);
 https.createServer(app.ssl, app).listen(3001);

@@ -1,79 +1,42 @@
-/*jshint -W062 */
 module.exports = function(){
-	var mysql = require("mysql"),
-	orm = require("orm"),
-	db = {};
-
-	db.name = 'incubator';
-	db.user = 'root';
-	db.host = '127.0.0.1';
-	db.password = 'password';
-
-	this.connect = function() {
-		return db.mysql = mysql.createConnection({
-			host     : db.host,
-			user     : db.user,
-			password : db.password,
-		});
+	var mysql = require('mysql'),
+	Sequelize = require('sequelize'),
+	sql = {
+		'name':'incubator',
+		'user': 'root',
+		'host': '127.0.0.1',
+		'password': 'password',
 	};
 
-	this.initialize_db = function() {
-		db.mysql.query('CREATE DATABASE IF NOT EXISTS ' + db.name);  
-		db.mysql.query('USE ' + db.name);
-		db.mysql.query(
-			'CREATE TABLE IF NOT EXISTS Users ( ' +
-				'id MEDIUMINT NOT NULL AUTO_INCREMENT, ' + 
-				'first_name VARCHAR(256) NOT NULL, ' +
-				'last_name VARCHAR(256) NOT NULL, ' +
-				'username VARCHAR(256) NOT NULL, ' +
-				'password VARCHAR(256) NOT NULL, ' +
-				'email_address VARCHAR(256) NOT NULL, ' +
-				'date_created DATETIME NOT NULL, ' +
-				'date_active DATETIME NOT NULL, ' +
-				'PRIMARY KEY (id)' + 
-			');'
-		);
-		db.mysql.query(
-			'CREATE TABLE IF NOT EXISTS AuthenticationProvider ( ' +
-				'id MEDIUMINT NOT NULL AUTO_INCREMENT, ' + 
-				'provider VARCHAR(256) NOT NULL, ' + 
-				'PRIMARY KEY (id)' + 
-			');'
-		);
-		db.mysql.query(
-			'CREATE TABLE IF NOT EXISTS Authentication ( ' +
-				'id MEDIUMINT NOT NULL AUTO_INCREMENT, ' + 
-				'user_id MEDIUMINT NOT NULL,' + 
-				'provider_id MEDIUMINT NOT NULL,' + 
-				'first_name VARCHAR(256) NOT NULL, ' +
-				'last_name VARCHAR(256) NOT NULL, ' +
-				'display_name VARCHAR(256) NOT NULL, ' +
-				'token VARCHAR(512) NOT NULL, ' +
-				'gender VARCHAR(256) NOT NULL, ' +
-				'location VARCHAR(256) NOT NULL, ' +
-				'picture VARCHAR(256) NOT NULL, ' +
-				'PRIMARY KEY (id),' + 
-				'FOREIGN KEY (user_id) REFERENCES Users(id), ' + 
-				'FOREIGN KEY (provider_id) REFERENCES AuthenticationProvider(id)' + 
-			');'
-		);
-	};
+	sql.db = mysql.createConnection({
+		host     : sql.host,
+		user     : sql.user,
+		password : sql.password,
+	});
 
-	this.initialize = function() {
-		this.connect();
-		this.initialize_db();
-		db.mysql.end();
+	sql.db.query('create database if not exists ' + sql.name);  
 
-		global.db = orm.connect("mysql://" + db.user + ":" + db.password + "@" + db.host + "/" + db.name, function (err, db) {
-			return err ? console.log("models.js: error connecting to db " + err) : console.log('connected!');
-		});
-	};
+	var sequelize = exports.sequelize = new Sequelize(sql.name, sql.user, sql.password, {
+      dialect: "mysql", 
+      port:    3306, 
+    });
+ 
+	sequelize.authenticate().complete(function(err) {
+	    if (!!err) {
+	      console.log('Unable to connect to the database:', err)
+
+	    } else {
+	      console.log('Connection has been established successfully.')
+	    }
+	});
+
+	exports.User = require('../models/user');
+	exports.AuthenticationProvider = require('../models/authentication_provider');
+	exports.Authentication = require('../models/Authentication');
 
 	this.delete = function() {
-		this.connect();
-		db.mysql.query('DROP DATABASE ' + db.name).end();
+		sql.db.query('DROP DATABASE ' + sql.name);
 	};
 
-	return this;
+	return sql;
 }();
-/*jshint -W062 */

@@ -1,15 +1,12 @@
 var path 	= require('path'),
 express 	= require('express'),
-db			= require('../backend/db/sql'),
 hbs 		= require("hbs"),
 fs		    = require('fs'),
+db			= require('../backend/db/sql')
 passport	= require('passport'),
 dirname 	= process.env.PWD;
 
-
 var configureSSL = function(app) {
-	//SSL setup
-	console.log(__dirname);
 	app.ssl = {
 	  key: fs.readFileSync(__dirname + '/ssl/privatekey.pem').toString(),
 	  cert: fs.readFileSync(__dirname + '/ssl/certificate.pem').toString()
@@ -22,9 +19,7 @@ var configureHandlebars = function(app) {
 	hbs.handlebars.registerHelper('json', function(context) {
 	    return JSON.stringify(context);
 	});
-
 };
-
 
 exports.configure = function (app) {
 	app.configure(function() {
@@ -42,5 +37,4 @@ exports.configure = function (app) {
 	// Configurations
 	configureSSL(app);
 	configureHandlebars(app);
-	db.initialize();
 };

@@ -1,0 +1,10 @@
+var fs = require( "fs" );
+var dir = "./test/lib/";
+
+if ( !fs.existsSync( dir ) ) {
+	fs.mkdirSync( dir );
+}
+
+fs.createReadStream( "./node_modules/chai/chai.js" ).pipe( fs.createWriteStream( dir + "chai.js" ) );
+fs.createReadStream( "./node_modules/mocha/mocha.js" ).pipe( fs.createWriteStream( dir + "mocha.js" ) );
+fs.createReadStream( "./node_modules/mocha/mocha.css" ).pipe( fs.createWriteStream( dir + "mocha.css" ) );

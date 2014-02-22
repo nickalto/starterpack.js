@@ -1,0 +1,7 @@
+{
+	"name": "toposort",
+	"version": "0.2.1",
+	"main": "./toposort.js",
+	"ignore": [ "scripts/**", "test/**" ],
+	"dependencies": {}
+}
