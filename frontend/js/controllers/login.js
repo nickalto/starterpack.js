@@ -1,46 +1,43 @@
 function LoginController($scope, $http) {
   $scope.createUser = function() {
-    $scope.loginModel = {};
-    this.loginModel.username = this.username;
-    this.loginModel.password = this.password;
-    this.loginModel.firstname = this.firstname;
-    this.loginModel.lastname = this.lastname;
-    this.loginModel.email = this.email;
+    this.loginModel = _.pick($scope, 'first_name', 'last_name', 'username', 'email_address', 'password');
     $http({
         method : 'POST',
         url : '/user/create',
         data : this.loginModel
-    }).
-  	success(function(data, status, headers, config) {
+    })
+  	.success(function(data, status, headers, config) {
   		if(data.success) {
-  			console.log('create user success');
   			window.location = data.redirect;
-  		}
-  	}).
-  	error(function(data, status, headers, config) {
+  		} else {
+        Object.keys(data.error).forEach(function (key) {
+          $('body').append('<p class="error">' + data.error[key] + '</p>')
+        });
+      }
+  	})
+  	.error(function(data, status, headers, config) {
   		console.log('create user failure');
   	});
   };
 
   $scope.authenticateUser = function() {
-  	$scope.loginModel = {};
-    this.loginModel.username = this.username;
-    this.loginModel.password = this.password;
+  	$scope.loginModel = _.pick($scope, 'username', 'password');;
     console.log('authenticate');
     $http({
         method : 'POST',
-        url : '/user/read',
-        data : this.loginModel
-    }).
-  	success(function(data, status, headers, config) {
+        url : '/login',
+        data : this.loginModel,
+    })
+  	.success(function(data, status, headers, config) {
+      console.log('hoooyahhh' + JSON.stringify(data));
   		if(data.success) {
   			console.log('authentication success');
   			window.location = data.redirect;
   		} else {
   			$( "input[type='password']" ).val('');
   		}
-  	}).
-  	error(function(data, status, headers, config) {
+  	})
+  	.error(function(data, status, headers, config) {
   		console.log('authentication failure');
   	});
   };

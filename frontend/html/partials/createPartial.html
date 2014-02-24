@@ -19,12 +19,13 @@
 
 <body>
     <div class="login-container">
+      {{ error }}
       <form ng-submit="createUser()" ng-controller="LoginController" class="form-signin">
         <h2 class="form-signin-heading">Sign up</h2>
-        <input type="text" class="form-control" placeholder="First name" required="" autofocus="" ng-model="firstname">
-        <input type="text" class="form-control" placeholder="Last name" required="" autofocus="" ng-model="lastname">
+        <input type="text" class="form-control" placeholder="First name" required="" autofocus="" ng-model="first_name">
+        <input type="text" class="form-control" placeholder="Last name" required="" autofocus="" ng-model="last_name">
         <input type="text" class="form-control" placeholder="Username" required="" autofocus="" ng-model="username">
-        <input type="text" class="form-control" placeholder="Email address" required="" autofocus="" ng-model="email">
+        <input type="text" class="form-control" placeholder="Email address" required="" autofocus="" ng-model="email_address">
         <input type="password" class="form-control" placeholder="Password" required="" ng-model="password">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
     </form>

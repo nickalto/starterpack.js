@@ -30,7 +30,7 @@ module.exports = function(){
 	    }
 	});
 
-	exports.User = require('../models/user');
+	exports.User = sql.User =  require('../models/user');
 	exports.AuthenticationProvider = require('../models/authentication_provider');
 	exports.Authentication = require('../models/Authentication');
 

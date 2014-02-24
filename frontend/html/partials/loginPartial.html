@@ -18,14 +18,22 @@
   </div>
 </div>
 
-<div class="login-container">
+
+<!--<div class="login-container">
   <form ng-submit="authenticateUser()" ng-controller="LoginController" class="form-signin">
     <h2 class="form-signin-heading">Please sign in</h2>
     <input type="text" class="form-control" placeholder="Username" required="" autofocus="" ng-model="username">
     <input type="password" class="form-control" placeholder="Password" required="" ng-model="password">
-<!--     <label class="checkbox">
-      <input type="checkbox" value="remember-me"> Remember me
-    </label> -->
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
   </form>
 </div> 
+-->
+<div class="login-container">
+  <form action="/login" method="POST" class="form-signin">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <input type="text" class="form-control" placeholder="Username" required="" autofocus="" name="username">
+    <input type="password" class="form-control" placeholder="Password" required="" name="password">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+</div> 
+

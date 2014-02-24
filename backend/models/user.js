@@ -1,12 +1,12 @@
 module.exports = function(){
-	var sequelize = module.parent.exports.sequelize,
-	User = {},
-	Sequelize = require('sequelize');
+	var User 		= {},
+	sequelize 	= module.parent.exports.sequelize,
+	Sequelize 	= require('sequelize');
 
 	User.model = sequelize.define('User', {
 		first_name: Sequelize.STRING, 
 		last_name: Sequelize.STRING,
-		username: {
+		password: {
 			type:Sequelize.STRING, 
 			allowNull: false
 		},
@@ -14,7 +14,14 @@ module.exports = function(){
 			type:Sequelize.STRING, 
 			allowNull: false
 		},
-		email_address: Sequelize.STRING,
+		email_address: {
+			type: Sequelize.STRING,
+			validate: {
+				isEmail:{
+                    msg: "Email address is invalid"
+				},
+			}
+		}
 	}, {
 		underscored:true
 	});
