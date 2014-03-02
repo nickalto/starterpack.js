@@ -4,7 +4,6 @@ app 		= express(),
 config 		= require('./config/config').configure(app),
 https	    = require('https'),
 http        = require('http'),
-passport	= require('passport'),
 app_routes 	= require('./backend/routes/application'),
 auth_routes	= require('./backend/routes/authentication');
 
@@ -13,20 +12,18 @@ app.get('/home', auth_routes.isAuthenticated, app_routes.home);
 app.get('/create', app_routes.createUser);
 app.get('/logout', app_routes.logout);
 
-app.post('/user/create', auth_routes.localAuthentication);	
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/home' }));
+//authentication Routes
+app.post('/user/create', auth_routes.localCreate);	
+app.post('/login', auth_routes.localAuthentication);
 
-app.get('/auth/google', passport.authenticate('google', {scope: 'https://www.googleapis.com/auth/plus.login'}));
-app.get('/auth/google/callback', passport.authenticate('google', { successRedirect: '/shityeah', failureRedirect: '/ohno' }));
-
-app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/awwyeah', failureRedirect: '/oops' }));
-
-app.get('/auth/facebook', passport.authenticate('facebook'));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/dope', failureRedirect: '/nope' }));
-
-app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback', passport.authenticate('github', { successRedirect: '/yuuup', failureRedirect: '/broken' }));
+app.get('/auth/google', auth_routes.googleAuthentication);
+app.get('/auth/google/callback', auth_routes.googleCallback);
+app.get('/auth/twitter', auth_routes.twitterAuthentication);
+app.get('/auth/twitter/callback', auth_routes.twitterCallback);
+app.get('/auth/facebook', auth_routes.facebookAuthentication);
+app.get('/auth/facebook/callback', auth_routes.facebookCallback);
+app.get('/auth/github', auth_routes.githubAuthentication);
+app.get('/auth/github/callback', auth_routes.githubCallback);
 
 // //User Routes
 // app.post('/user/read', userRoutes.read);

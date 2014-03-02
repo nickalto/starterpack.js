@@ -1,10 +1,5 @@
 module.exports = {
 
-  mailgun: {
-    login: 'Your Mailgun SMTP Username',
-    password: 'Your Mailgun SMTP Password'
-  },
-
   sendgrid: {
     user: 'Your SendGrid Username',
     password: 'Your SendGrid Password'
@@ -35,6 +30,7 @@ module.exports = {
     clientID: '184469455744-bq9g5da0hj3neb2lfp7mdhluo8082sha.apps.googleusercontent.com',
     clientSecret: 'JgqwZN0Hh7ZRvA8J3oA_1rT7',
     callbackURL: '/auth/google/callback',
+    scope: 'https://www.googleapis.com/auth/plus.login',
     passReqToCallback: true
   },
 };

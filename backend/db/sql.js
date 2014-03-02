@@ -21,20 +21,13 @@ module.exports = function(){
       port:    3306, 
     });
  
-	sequelize.authenticate().complete(function(err) {
-	    if (!!err) {
-	      console.log('Unable to connect to the database:', err)
-
-	    } else {
-	      console.log('Connection has been established successfully.')
-	    }
+	sequelize.authenticate().complete( function(err) {
+		if (err) {
+			new Error('backend/db/sql.js: unable to connect to the database:', err);
+		} 
 	});
 
 	sql.User = require('../models/user');
-
-	sql.delete = function() {
-		sql.db.query('DROP DATABASE ' + sql.name);
-	};
 
 	return sql;
 }();

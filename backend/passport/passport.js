@@ -1,5 +1,4 @@
-var _             = require('underscore'),
-passport          = require('passport'),
+var passport      = require('passport'),
 bcrypt            = require('bcrypt'),
 async             = require('async'),
 LocalStrategy     = require('passport-local').Strategy,
@@ -8,8 +7,7 @@ TwitterStrategy   = require('passport-twitter').Strategy,
 FacebookStrategy  = require('passport-facebook').Strategy,
 GitHubStrategy    = require('passport-github').Strategy,
 secrets           = require('./secrets'),
-db                = require('../db/sql'),
-User              = db.User;
+User              = require('../db/sql').User;
 
 //Passport serialization
 passport.serializeUser(function(user, done) {
@@ -46,7 +44,7 @@ exports.localAuthentication = function(req, res) {
       var plaintext_password = req.body.password;
       bcrypt.hash(plaintext_password, 5, function(err, hashed_password) {
           if(err) {
-            return new Error('models/Authentication.js: bcrypt hashing error');
+            return new Error('backend/passport/passport.js: bcrypt hashing error');
           }
           password = hashed_password;
           callback();
@@ -101,6 +99,7 @@ passport.use(new LocalStrategy( function(username, password, done) {
 
 //Sign in with Twitter
 passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, refreshToken, profile, done) {
+ console.log('twitter auth ' + JSON.stringify(profile));
   async.series({
     findOrCreateUser: function(callback) {
       User.find({ where: { twitter_uid: profile.id } })
@@ -108,11 +107,12 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, ref
         if( current_user ) {
           return done(null, current_user);
         } else {
+          var name = profile._json.name.split(' ');
           User.create({ 
-            first_name: profile.username,
+            first_name: name[0],
             username: profile.username,
             email_address: profile.username + "@twitter.com",
-            last_name: profile.username,
+            last_name: name[1],
             password: 'password',
             picture: profile._json.profile_image_url,
             location: profile._json.location,
@@ -145,7 +145,7 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
         } else {
           User.create({ 
             first_name: profile._json.given_name,
-            username: profile._json.name,
+            username: profile._json.name.replace(/ /g,'').toLowerCase(),
             email_address: 'email@provider.com',
             last_name: profile._json.family_name,
             password: 'password',
@@ -181,13 +181,13 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
           return done(null, current_user);
         } else {
           User.create({ 
-            first_name: profile.name.given_name,
+            first_name: profile.name.givenName,
             username: profile.username, 
             email_address: profile.username + "@facebook.com",
-            last_name: profile.name.family_name,
+            last_name: profile.name.familyName,
             password: 'password',
             gender: profile.gender,
-            location: profile.locale,
+            location: profile._json.locale,
             picture: 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
             facebook_uid: profile.id,
             facebook_accesstoken: accessToken,
@@ -219,8 +219,11 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
         if( current_user ) {
           return done(null, current_user);
         } else {
+          var name = profile._json.name.split(' ');
           User.create({ 
             username: profile.username, 
+            first_name: name[0],
+            last_name: name[1],
             email_address: profile.emails[0].value,
             password: 'password',
             location: profile._json.location,

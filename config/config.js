@@ -3,7 +3,6 @@ express 	= require('express'),
 hbs 		= require("hbs"),
 fs		    = require('fs'),
 flash		= require('connect-flash'),
-db			= require('../backend/db/sql'),
 passport	= require('passport'),
 dirname 	= process.env.PWD;
 
