@@ -13,8 +13,6 @@ exports.createUser = function(req, res) {
 };
 
 exports.logout = function(req, res) {
-	req.session.user_id = null;
-	//passport logout
 	req.logout();
 	res.redirect('/');
 };
@@ -23,18 +21,5 @@ exports.catchall = function(req, res) {
 	res.sendfile(dirname + '/frontend/html/404.html');
 };
 
-exports.reset = function(req, res) {
-	db.delete();
-	db.initialize();
-	res.send('reset db');
-};
 
-exports.isAuthenticated = function (req, res, next) {
-	if (req.session.user_id) {
-		next();
-	} else {	
-		console.log(dirname);
-		res.sendfile(dirname + '/frontend/html/login.html');
-  	}
-};
 

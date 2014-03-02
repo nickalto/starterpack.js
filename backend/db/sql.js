@@ -30,11 +30,9 @@ module.exports = function(){
 	    }
 	});
 
-	exports.User = sql.User =  require('../models/user');
-	exports.AuthenticationProvider = require('../models/authentication_provider');
-	exports.Authentication = require('../models/Authentication');
+	sql.User = require('../models/user');
 
-	this.delete = function() {
+	sql.delete = function() {
 		sql.db.query('DROP DATABASE ' + sql.name);
 	};
 
