@@ -1,0 +1,16 @@
+.login-container {
+  max-width: 400px;
+  margin: 0 auto; }
+  .login-container input[type=text] {
+    padding: 20px 10px 20px 10px; }
+  .login-container input[type=password] {
+    padding: 20px 10px 20px 10px; }
+  .login-container .create-user, .login-container .sign-in {
+    margin: 10px 0 10px 0; }
+  .login-container .btn-social {
+    width: 25%;
+    padding: 10px;
+    text-align: center; }
+    .login-container .btn-social i {
+      border-right: none;
+      position: relative; }
