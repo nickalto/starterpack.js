@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title #{title} - Starter Template for Bootstrap
+    link(rel='stylesheet', href='/frontend/css/bootstrap/yeti.bootstrap.min.css')
+    link(rel='stylesheet', href='/frontend/css/bootstrap/bootstrap-social.css')
+    link(rel='stylesheet' href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
+
+    script(src='/node_modules/jquery/dist/jquery.min.js')
+    script(src='/frontend/js/bootstrap/bootstrap.min.js') 
+    if styles
+      - each style in styles 
+        link(rel='stylesheet', href='#{style.css}')
+    if coffeescript
+      - each script in coffeescript 
+        script(src='#{script.js}') 
+  body
+    if !hide_navbar
+      include partials/navigation
+    #wrap
+      .container
+        block content

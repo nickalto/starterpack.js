@@ -2,7 +2,6 @@ var path 	= require('path'),
 express 	= require('express'),
 hbs 		= require("hbs"),
 fs		    = require('fs'),
-flash		= require('connect-flash'),
 passport	= require('passport'),
 dirname 	= process.env.PWD;
 
@@ -28,11 +27,10 @@ exports.configure = function (app) {
 	    app.use(express.session({ secret: '3j143kl2;7poih;jkl;' }));
 		app.use(express.static(dirname + '/')); 
 		app.use(express.urlencoded());
-		app.use(flash());
 		app.use(passport.initialize());
 		app.use(passport.session());
-		app.set('view engine', 'html');
-		app.set('views', dirname + '/html/');
+		app.set('view engine', 'jade');
+		app.set('views', dirname + '/frontend/views/');
 		app.engine('html', hbs.__express);
 	});
 

@@ -1,15 +1,41 @@
 var dirname = process.env.PWD;
 
 exports.home = function(req, res) {
-	res.sendfile(dirname + '/frontend/html/home.html');
+	res.render('home', {
+    title: 'Home', 
+    styles: [],
+    nav_links: [
+    	{ title: 'Update User', href: '/user/update'},
+		{ title: 'Logout', href: '/logout'}
+    ]
+  });
 };
 
 exports.login = function(req, res) {
-	res.sendfile(dirname + '/frontend/html/login.html');
+	res.render('login', {
+    	title: 'Login', 
+	    styles: [
+	    	{css: '../frontend/css/login/login.css'}
+	    ],
+    	nav_links: [
+    		{ title: 'Create User', href: '/create'},
+    	]
+  	});
 };
 
 exports.createUser = function(req, res) {
-	res.sendfile(dirname + '/frontend/html/create.html');
+	res.render('create', {
+    	title: 'Create User', 
+	    styles: [
+	    	{css: '../frontend/css/login/login.css'}
+	    ],
+	    coffeescript: [
+	    	{js: '../frontend/js/controllers/postHelper.js'}
+	    ],
+    	nav_links: [
+    		{ title: 'Login', href: '/login'},
+    	]
+  	});
 };
 
 exports.logout = function(req, res) {
@@ -18,7 +44,10 @@ exports.logout = function(req, res) {
 };
 
 exports.catchall = function(req, res) {
-	res.sendfile(dirname + '/frontend/html/404.html');
+	res.render('404', {
+    	title: '404', 
+	    hide_navbar:true
+  	});
 };
 
 

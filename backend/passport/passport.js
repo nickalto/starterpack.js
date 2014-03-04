@@ -33,7 +33,6 @@ exports.localAuthentication = function(req, res) {
         .done(function(error, user) {
           if(user) {
             return res.json({ 
-              success: false, 
               error: { username:'Username is already being used' } 
             });
           }
@@ -60,10 +59,10 @@ exports.localAuthentication = function(req, res) {
       })
       .success(function(user) {
         req.user = user;
-        res.json({ success: true, redirect: '/login'});
+        res.json({ redirect: '/login'});
       })
       .error(function(err) {
-        res.json({ success: false, error: err });
+        res.json({ error: err });
       })
     }
   });
