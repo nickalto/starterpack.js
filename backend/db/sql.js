@@ -5,7 +5,7 @@ module.exports = function(){
 		'name':'incubator',
 		'user': 'root',
 		'host': '127.0.0.1',
-		'password': 'password',
+		'password': 'root',
 	};
 
 	sql.db = mysql.createConnection({

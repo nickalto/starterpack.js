@@ -1,3 +1,37 @@
+$blue-green: #20B2AA;
+$blue-green-selected: #1FA59E;
+$blue-green-dark: #1A807B;
+
+body {
+	.navbar {
+		margin-bottom: 0;
+	}
+	.navbar-home {
+		background-color:$blue-green;
+		.navbar-nav li a:hover {
+			background-color:$blue-green-selected;
+		}
+		 @media screen and (max-width: 767px) {
+			.navbar-collapse, .navbar-default .navbar-form {
+				border-color: $blue-green-dark;
+				background-color: $blue-green-dark;
+			}
+		}
+		.navbar-toggle {
+			&:hover .icon-bar {
+				background-color:$blue-green-dark;
+			}
+		}
+	}
+	.navbar-header {
+		margin-left: 20px;
+	}
+	.hero {
+		background-color:$blue-green;
+		width:100%;
+		height:500px;
+	}
+}
 .login-container {
 	max-width: 400px;
 	margin: 0 auto;

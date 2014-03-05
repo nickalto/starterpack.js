@@ -4,6 +4,7 @@ exports.home = function(req, res) {
 	res.render('home', {
     title: 'Home', 
     styles: [],
+    nav_class: 'navbar-home',
     nav_links: [
     	{ title: 'Update User', href: '/user/update'},
 		{ title: 'Logout', href: '/logout'}

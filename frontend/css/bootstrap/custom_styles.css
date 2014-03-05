@@ -1,3 +1,22 @@
+body .navbar {
+  margin-bottom: 0; }
+body .navbar-home {
+  background-color: lightseagreen; }
+  body .navbar-home .navbar-nav li a:hover {
+    background-color: #1fa59e; }
+  @media screen and (max-width: 767px) {
+    body .navbar-home .navbar-collapse, body .navbar-home .navbar-default .navbar-form {
+      border-color: #1a807b;
+      background-color: #1a807b; } }
+  body .navbar-home .navbar-toggle:hover .icon-bar {
+    background-color: #1a807b; }
+body .navbar-header {
+  margin-left: 20px; }
+body .hero {
+  background-color: lightseagreen;
+  width: 100%;
+  height: 500px; }
+
 .login-container {
   max-width: 400px;
   margin: 0 auto; }

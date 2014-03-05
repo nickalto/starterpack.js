@@ -1,18 +1,19 @@
 extends layout
 
 block content
-  .login-container
-    form.form-signin(action="/user/create" method="POST")
-      h2.form-signin-heading Sign up
-      input.form-control(type="text" placeholder="First name" required="" autofocus="" autocomplete="off"  name="first_name")
+  .container
+    .login-container
+      form.form-signin(action="/user/create" method="POST")
+        h2.form-signin-heading Sign up
+        input.form-control(type="text" placeholder="First name" required="" autofocus="" autocomplete="off"  name="first_name")
 
-      input.form-control(type="text" placeholder="Last name" required="" autofocus="" autocomplete="off" name="last_name")
+        input.form-control(type="text" placeholder="Last name" required="" autofocus="" autocomplete="off" name="last_name")
 
-      input.form-control(type="text" placeholder="Username" required="" autofocus="" autocomplete="off" name="username")
+        input.form-control(type="text" placeholder="Username" required="" autofocus="" autocomplete="off" name="username")
 
-      input.form-control(type="text" placeholder="Email address" required="" autofocus="" autocomplete="off" name="email_address")
+        input.form-control(type="text" placeholder="Email address" required="" autofocus="" autocomplete="off" name="email_address")
 
-      input.form-control(type="password" placeholder="Password" required="" autocomplete="off" name="password")
+        input.form-control(type="password" placeholder="Password" required="" autocomplete="off" name="password")
 
-      button.btn.btn-lg.btn-primary.btn-block.create-user(type="submit") Sign up
+        button.btn.btn-lg.btn-primary.btn-block.create-user(type="submit") Sign up
       
