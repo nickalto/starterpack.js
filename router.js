@@ -9,6 +9,7 @@ auth_routes	= require('./backend/routes/authentication');
 
 app.get('(/|/login)', app_routes.login);
 app.get('/home', auth_routes.isAuthenticated, app_routes.home);
+app.get('/setup', auth_routes.isAuthenticated, app_routes.setup);
 app.get('/create', app_routes.createUser);
 app.get('/logout', app_routes.logout);
 
@@ -31,7 +32,7 @@ app.get('/auth/github/callback', auth_routes.githubCallback);
 // app.post('/user/update', isAuthenticated, userRoutes.update);
 // app.post('/user/delete', isAuthenticated, userRoutes.delete);
 
-app.get('*', app_routes.catchall);
+app.use( app_routes.catchall);
 
 http.createServer(app).listen(3000);
 https.createServer(app.ssl, app).listen(3001);

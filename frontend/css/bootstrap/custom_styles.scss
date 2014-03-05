@@ -2,11 +2,20 @@ $blue-green: #20B2AA;
 $blue-green-selected: #1FA59E;
 $blue-green-dark: #1A807B;
 
+$coral: #E9696D;
+$coral-selected:#D16F6F;
+$coral-dark: #B45F5F;
+
 body {
+	margin-bottom:100px;
 	.navbar {
 		margin-bottom: 0;
 	}
+	p, li {
+		line-height: 1.75em;
+	}
 	.navbar-home {
+		font-size:14px;
 		background-color:$blue-green;
 		.navbar-nav li a:hover {
 			background-color:$blue-green-selected;
@@ -23,14 +32,41 @@ body {
 			}
 		}
 	}
-	.navbar-header {
-		margin-left: 20px;
+	.navbar-setup {
+		font-size:14px;
+		background-color:$coral;
+		.navbar-nav li a:hover {
+			background-color:$coral-selected;
+		}
+		 @media screen and (max-width: 767px) {
+			.navbar-collapse, .navbar-default .navbar-form {
+				border-color: $coral-dark;
+				background-color: $coral-dark;
+			}
+		}
+		.navbar-toggle {
+			&:hover .icon-bar {
+				background-color:$coral-dark;
+			}
+		}
 	}
 	.hero {
-		background-color:$blue-green;
+		&.navbar-setup {
+			background: $coral;
+		}
+		&.navbar-home {
+			background:$blue-green;
+		}
 		width:100%;
-		height:500px;
+		height:300px;
 	}
+	.navbar-header {
+		margin-left: 20px;
+		a {
+			font-size:18px;
+		}
+	}
+
 }
 .login-container {
 	max-width: 400px;

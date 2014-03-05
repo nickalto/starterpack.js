@@ -1,11 +1,26 @@
 var dirname = process.env.PWD;
 
 exports.home = function(req, res) {
-	res.render('home', {
+	res.render('Home', {
     title: 'Home', 
     styles: [],
     nav_class: 'navbar-home',
     nav_links: [
+    	{ title: 'Setup', href: '/setup'},
+    	{ title: 'Update User', href: '/user/update'},
+		{ title: 'Logout', href: '/logout'}
+    ]
+  });
+};
+
+
+exports.setup = function(req, res) {
+	res.render('Setup', {
+    title: 'Setup', 
+    styles: [],
+    nav_class: 'navbar-setup',
+    nav_links: [
+    	{ title: 'Home', href: '/home'},
     	{ title: 'Update User', href: '/user/update'},
 		{ title: 'Logout', href: '/logout'}
     ]

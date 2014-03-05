@@ -2,7 +2,7 @@ var auth = require('../passport/passport'),
 passport = require('passport');
 
 exports.isAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated()) return next();
+  if (req.user) return next();
   res.redirect('/login');
 };
 
