@@ -11,6 +11,7 @@ app.get('(/|/login)', app_routes.login);
 app.get('/home', auth_routes.isAuthenticated, app_routes.home);
 app.get('/setup', auth_routes.isAuthenticated, app_routes.setup);
 app.get('/create', app_routes.createUser);
+app.get('/user/update', auth_routes.isAuthenticated, app_routes.updateUser);
 app.get('/logout', app_routes.logout);
 
 //authentication Routes

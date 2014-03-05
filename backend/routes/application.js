@@ -22,7 +22,7 @@ exports.setup = function(req, res) {
     nav_links: [
     	{ title: 'Home', href: '/home'},
     	{ title: 'Update User', href: '/user/update'},
-		{ title: 'Logout', href: '/logout'}
+		  { title: 'Logout', href: '/logout'}
     ]
   });
 };
@@ -52,6 +52,21 @@ exports.createUser = function(req, res) {
     		{ title: 'Login', href: '/login'},
     	]
   	});
+};
+
+exports.updateUser = function(req, res) {
+  res.render('update', {
+      title: 'Update User', 
+      styles: [
+        {css: '../frontend/css/login/login.css'}
+      ],
+      nav_links: [
+        { title: 'Home', href: '/home'},
+        { title: 'Setup', href: '/setup'},
+        { title: 'Logout', href: '/logout'}      
+      ],
+      user: req.user
+    });
 };
 
 exports.logout = function(req, res) {
