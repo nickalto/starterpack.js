@@ -1,5 +1,10 @@
 body {
   margin-bottom: 100px; }
+  body form {
+    margin: 50px 0; }
+  body .form-horizontal .control-label {
+    white-space: nowrap;
+    text-align: left; }
   body .navbar {
     margin-bottom: 0; }
   body p, body li {
@@ -34,19 +39,19 @@ body {
     body .hero.navbar-home {
       background: lightseagreen; }
   body .navbar-header {
-    margin-left: 20px; }
+    margin-left: 5px; }
     body .navbar-header a {
       font-size: 18px; }
 
 .login-container {
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto; }
   .login-container input[type=text] {
     padding: 20px 10px 20px 10px; }
   .login-container input[type=password] {
     padding: 20px 10px 20px 10px; }
   .login-container .create-user, .login-container .sign-in {
-    margin: 10px 0 10px 0; }
+    margin: 20px 0 20px 0; }
   .login-container .btn-social {
     width: 25%;
     padding: 10px;

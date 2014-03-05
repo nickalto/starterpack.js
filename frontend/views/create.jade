@@ -3,17 +3,33 @@ extends layout
 block content
   .container
     .login-container
-      form.form-signin(action="/user/create" method="POST")
+      form.form-horizontal.form-signin(action="/user/create" method="POST")
         h2.form-signin-heading Sign up
-        input.form-control(type="text" placeholder="First name" required="" autofocus="" autocomplete="off"  name="first_name")
+        br
+        .form-group
+          label.col-sm-2.control-label(for="create_first_name") First name
+          .col-sm-10
+            input.form-control(type="text" id="create_first_name" placeholder="First name" required="" autofocus="" autocomplete="off"  name="first_name")
 
-        input.form-control(type="text" placeholder="Last name" required="" autofocus="" autocomplete="off" name="last_name")
+        .form-group
+          label.col-sm-2.control-label(for="create_last_name") Last name
+          .col-sm-10
+            input.form-control(type="text" id="create_last_name" placeholder="Last name" required="" autofocus="" autocomplete="off" name="last_name")
 
-        input.form-control(type="text" placeholder="Username" required="" autofocus="" autocomplete="off" name="username")
+        .form-group
+          label.col-sm-2.control-label(for="create_username") Username
+          .col-sm-10
+            input.form-control(type="text" id="create_username" placeholder="Username" required="" autofocus="" autocomplete="off" name="username")
 
-        input.form-control(type="text" placeholder="Email address" required="" autofocus="" autocomplete="off" name="email_address")
+        .form-group
+          label.col-sm-2.control-label(for="create_email_address") Email
+          .col-sm-10
+            input.form-control(type="text" id="create_email_address" placeholder="Email address" required="" autofocus="" autocomplete="off" name="email_address")
 
-        input.form-control(type="password" placeholder="Password" required="" autocomplete="off" name="password")
+        .form-group
+          label.col-sm-2.control-label(for="create_password") Password
+          .col-sm-10
+            input.form-control(type="password" id="create_password" placeholder="Password" required="" autocomplete="off" name="password")
 
         button.btn.btn-lg.btn-primary.btn-block.create-user(type="submit") Sign up
       

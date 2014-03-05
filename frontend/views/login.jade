@@ -3,10 +3,19 @@ extends layout
 block content
   .container
     .login-container
-      form.form-signin(action="/login" method="POST")
+      form.form-horizontal.form-signin(action="/login" method="POST")
         h2.form-signin-heading Please sign in
-        input.form-control(type="text" placeholder="Username" required="" autofocus="" name="username")
-        input.form-control(type="password" placeholder="Password" required="" name="password")
+        br
+        .form-group
+          label.col-sm-2.control-label(for="sign_in_username") Username
+          .col-sm-10
+            input.form-control(type="text" id="sign_in_username" placeholder="Username" required="" autofocus="" name="username")
+
+        .form-group
+          label.col-sm-2.control-label(for="sign_in_password") Password
+          .col-sm-10
+            input.form-control(type="password" id="sign_in_password" placeholder="Password" required="" name="password")
+
         button.btn.btn-lg.btn-primary.btn-block.sign-in(type="submit") Sign in
 
       a.btn.btn-social.btn-twitter(href="/auth/twitter")

@@ -7,6 +7,13 @@ $coral-selected:#D16F6F;
 $coral-dark: #B45F5F;
 
 body {
+	form {
+		margin: 50px 0;
+	}
+	.form-horizontal .control-label {
+		white-space: nowrap;
+		text-align: left;
+	}
 	margin-bottom:100px;
 	.navbar {
 		margin-bottom: 0;
@@ -61,7 +68,7 @@ body {
 		height:300px;
 	}
 	.navbar-header {
-		margin-left: 20px;
+		margin-left: 5px;
 		a {
 			font-size:18px;
 		}
@@ -69,7 +76,7 @@ body {
 
 }
 .login-container {
-	max-width: 400px;
+	max-width: 500px;
 	margin: 0 auto;
 	input[type=text] {
 		padding:20px 10px 20px 10px;
@@ -78,7 +85,7 @@ body {
 		padding:20px 10px 20px 10px;
 	}
 	.create-user, .sign-in {
-		margin:10px 0 10px 0;
+		margin:20px 0 20px 0;
 	}
 	.btn-social {
 		width:25%;
