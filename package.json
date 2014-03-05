@@ -37,11 +37,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nickalto/transcriptorize.git"
+    "url": "https://github.com/nickalto/incubator.git"
   },
   "author": "Nick Alto",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/nickalto/transcriptorize/issues"
+    "url": "https://github.com/nickalto/incubator/issues"
   }
 }
