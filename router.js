@@ -14,27 +14,26 @@ app.get('/create', app_routes.createUser);
 app.get('/user/update', auth_routes.isAuthenticated, app_routes.updateUser);
 app.get('/logout', app_routes.logout);
 
-//authentication Routes
+//local authentication routes
 app.post('/user/create', auth_routes.localCreate);	
 app.post('/user/delete', auth_routes.localDelete);
 app.post('/user/update', auth_routes.localUpdate);
 app.post('/user/password', auth_routes.localPasswordUpdate);
 app.post('/login', auth_routes.localAuthentication);
 
+//social authentication routes
 app.get('/auth/google', auth_routes.googleAuthentication);
+app.get('/google/unlink', auth_routes.isAuthenticated, auth_routes.googleUnlink);
 app.get('/auth/google/callback', auth_routes.googleCallback);
 app.get('/auth/twitter', auth_routes.twitterAuthentication);
+app.get('/twitter/unlink', auth_routes.isAuthenticated, auth_routes.twitterUnlink);
 app.get('/auth/twitter/callback', auth_routes.twitterCallback);
 app.get('/auth/facebook', auth_routes.facebookAuthentication);
+app.get('/facebook/unlink', auth_routes.isAuthenticated, auth_routes.facebookUnlink);
 app.get('/auth/facebook/callback', auth_routes.facebookCallback);
 app.get('/auth/github', auth_routes.githubAuthentication);
+app.get('/github/unlink', auth_routes.isAuthenticated, auth_routes.githubUnlink);
 app.get('/auth/github/callback', auth_routes.githubCallback);
-
-// //User Routes
-// app.post('/user/read', userRoutes.read);
-// app.get('/user/update', isAuthenticated, userRoutes.getUpdate);
-// app.post('/user/update', isAuthenticated, userRoutes.update);
-// app.post('/user/delete', isAuthenticated, userRoutes.delete);
 
 app.use( app_routes.catchall);
 

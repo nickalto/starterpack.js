@@ -2,10 +2,10 @@ module.exports = function(){
 	var mysql = require('mysql'),
 	Sequelize = require('sequelize'),
 	sql = {
-		'name':'incubator',
+		'name':'starterpack',
 		'user': 'root',
 		'host': '127.0.0.1',
-		'password': 'root',
+		'password': 'password',
 	};
 
 	sql.db = mysql.createConnection({

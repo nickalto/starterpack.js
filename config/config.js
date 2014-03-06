@@ -24,7 +24,6 @@ exports.configure = function (app) {
 		app.use(passport.initialize());
 		app.use(passport.session());
 	});
-
 	// Configurations
 	configureSSL(app);
 };

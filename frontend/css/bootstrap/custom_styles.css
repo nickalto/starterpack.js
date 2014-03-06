@@ -1,5 +1,10 @@
 body {
   margin-bottom: 100px; }
+  body .container .img-circle {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-top: 50px; }
   body form {
     margin: 50px 0; }
   body .form-horizontal .control-label {
@@ -9,6 +14,8 @@ body {
     margin-bottom: 0; }
   body p, body li {
     line-height: 1.75em; }
+  body .login-container .jumbotron {
+    margin-top: 50px; }
   body .navbar-home {
     font-size: 14px;
     background-color: lightseagreen; }
@@ -42,20 +49,21 @@ body {
     margin-left: 5px; }
     body .navbar-header a {
       font-size: 18px; }
-
-.login-container {
-  max-width: 500px;
-  margin: 0 auto; }
-  .login-container input[type=text] {
-    padding: 20px 10px 20px 10px; }
-  .login-container input[type=password] {
-    padding: 20px 10px 20px 10px; }
-  .login-container .create-user, .login-container .sign-in {
-    margin: 20px 0 20px 0; }
-  .login-container .btn-social {
-    width: 25%;
-    padding: 10px;
-    text-align: center; }
-    .login-container .btn-social i {
-      border-right: none;
-      position: relative; }
+  body a.linked {
+    opacity: 0.3; }
+  body .login-container {
+    max-width: 500px;
+    margin: 0 auto; }
+    body .login-container input[type=text] {
+      padding: 20px 10px 20px 10px; }
+    body .login-container input[type=password] {
+      padding: 20px 10px 20px 10px; }
+    body .login-container .create-user, body .login-container .sign-in {
+      margin: 20px 0 20px 0; }
+    body .login-container .btn-social {
+      width: 25%;
+      padding: 10px;
+      text-align: center; }
+      body .login-container .btn-social i {
+        border-right: none;
+        position: relative; }

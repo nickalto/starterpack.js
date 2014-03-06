@@ -24,11 +24,20 @@ passport.deserializeUser(function(id, done) {
   })
 });
 
+exports.hashPassword = function (plaintext_password, callback) {
+  bcrypt.hash(plaintext_password, 5, function(err, password) {
+      if(err) {
+        return new Error('backend/passport/passport.js: bcrypt hashing error');
+      }
+      callback(null, password);
+  });
+}
+
 // Create a local user
 exports.localAuthentication = function(req, res) {
   var password = null;
-  async.series({
-    validateUsername: function(callback) {
+  async.waterfall([
+    function validateUsername (callback) {
       User.find({ where: { username: req.body.username } })
         .done(function(error, user) {
           if(user) {
@@ -36,26 +45,19 @@ exports.localAuthentication = function(req, res) {
               error: { username:'Username is already being used' } 
             });
           }
-          callback();
+          callback(null);
         });
     },
-    hashPassword: function(callback) {
-      var plaintext_password = req.body.password;
-      bcrypt.hash(plaintext_password, 5, function(err, hashed_password) {
-          if(err) {
-            return new Error('backend/passport/passport.js: bcrypt hashing error');
-          }
-          password = hashed_password;
-          callback();
-        });
+    function encryptPassword(callback) {
+      exports.hashPassword(req.body.password, callback)
     },
-    createUser: function(callback) {
+    function createUser(hashed_password, callback) {
       User.create({ 
         username: req.body.username,
         first_name: req.body.first_name,
         email_address: req.body.email_address,
         last_name: req.body.last_name,
-        password: password
+        password: hashed_password
       })
       .success(function(user) {
         req.user = user;
@@ -65,30 +67,19 @@ exports.localAuthentication = function(req, res) {
         res.json({ error: err });
       })
     }
-  });
+  ]);
 };
-
-exports.hashPassword = function(plaintext_password, callback) {
-  bcrypt.hash(plaintext_password, 5, function(err, password) {
-      if(err) {
-        return new Error('backend/passport/passport.js: bcrypt hashing error');
-      }
-      callback(null, password);
-  });
-}
 
 //Sign in using username and Password.
 passport.use(new LocalStrategy( function(username, password, done) {
-  var user = null;
-  async.series({
-    findUser: function(callback) {
+  async.waterfall([
+    function findUser(callback) {
       User.find({ where: { username: username } })
-      .success(function(foundUser) {
-        user = foundUser;
-        callback();
+      .success(function(user) {
+        callback(null, user);
       });
     },
-    comparePassword: function(callback) {
+    function comparePassword(user, callback) {
       if( !user ) {
         return done(null, false, { message: 'Invalid email or password.' });
       } 
@@ -101,7 +92,7 @@ passport.use(new LocalStrategy( function(username, password, done) {
         }
       });
     }
-  });
+  ]);
 }));
 
 //Sign in with Twitter
@@ -109,9 +100,17 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, ref
  console.log('twitter auth ' + JSON.stringify(profile));
   async.series({
     findOrCreateUser: function(callback) {
-      User.find({ where: { twitter_uid: profile.id } })
+      var query = req.user ? ["id = ?", req.user.id] : ["twitter_uid = ?", profile.id];
+      User.find({ where: query })
       .done(function( error, current_user ) {
         if( current_user ) {
+          current_user.updateAttributes({
+            twitter_uid: profile.id,
+            twitter_accesstoken: accessToken,
+            twitter_refreshtoken: refreshToken,
+            location: current_user.location === null ? profile._json.location : current_user.location,
+            picture: current_user.picture === null ? profile._json.profile_image_url : current_user.picture,
+          });
           return done(null, current_user);
         } else {
           var name = profile._json.name.split(' ');
@@ -145,9 +144,18 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, ref
 passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refreshToken, profile, done) {
   async.series({
     findOrCreateUser: function(callback) {
-      User.find({ where: { google_uid: profile.id } })
+      var query = req.user ? ["id = ?", req.user.id] : ["google_uid = ?", profile._json.id];
+      User.find({ where: query })
       .done(function( error, current_user ) {
         if( current_user ) {
+          current_user.updateAttributes({
+            google_uid: profile._json.id,
+            google_accesstoken: accessToken,
+            google_refreshtoken: refreshToken,
+            location: current_user.location === null ? profile._json.locale : current_user.location,
+            picture: current_user.picture === null ? profile._json.picture : current_user.picture,
+            gender: current_user.gender === null ? profile._json.gender : current_user.gender,
+          });
           return done(null, current_user);
         } else {
           User.create({ 
@@ -182,9 +190,19 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
   console.log('facebook auth ' + JSON.stringify(profile));
   async.series({
     findOrCreateUser: function(callback) {
-      User.find({ where: { facebook_uid: profile.id } })
+      var query = req.user ? ["id = ?", req.user.id] : ["facebook_uid = ?", profile.id];
+      var profile_image = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
+      User.find({ where: query })
       .done(function( error, current_user ) {
         if( current_user ) {
+          current_user.updateAttributes({
+            facebook_uid: profile.id,
+            facebook_accesstoken: accessToken,
+            facebook_refreshtoken: refreshToken,
+            location: current_user.location === null ? profile._json.locale : current_user.location,
+            picture: current_user.picture === null ? profile_image : current_user.picture,
+            gender: current_user.gender === null ? profile.gender : current_user.gender,
+          });
           return done(null, current_user);
         } else {
           User.create({ 
@@ -195,7 +213,7 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
             password: 'password',
             gender: profile.gender,
             location: profile._json.locale,
-            picture: 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
+            picture: profile_image,
             facebook_uid: profile.id,
             facebook_accesstoken: accessToken,
             facebook_refreshtoken: refreshToken,
@@ -221,9 +239,17 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
   console.log('github auth ' + JSON.stringify(profile));
   async.series({
     findOrCreateUser: function(callback) {
-      User.find({ where: { gitHub_uid: profile.id } })
+      var query = req.user ? ["id = ?", req.user.id] : ["facebook_uid = ?", profile.id];
+      User.find({ where: query })
       .done(function( error, current_user ) {
         if( current_user ) {
+           current_user.updateAttributes({
+            github_uid: profile.id,
+            github_accesstoken: accessToken,
+            github_refreshtoken: refreshToken,
+            location: current_user.location === null ? profile._json.location : current_user.location,
+            picture: current_user.picture === null ? profile._json.avatar_url : current_user.picture,
+          });
           return done(null, current_user);
         } else {
           var name = profile._json.name.split(' ');

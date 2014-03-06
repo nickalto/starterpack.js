@@ -7,6 +7,12 @@ $coral-selected:#D16F6F;
 $coral-dark: #B45F5F;
 
 body {
+	.container .img-circle {
+		width: 100px;
+		height: 100px;
+		margin: auto;
+		margin-top: 50px;
+	}
 	form {
 		margin: 50px 0;
 	}
@@ -20,6 +26,11 @@ body {
 	}
 	p, li {
 		line-height: 1.75em;
+	}
+	.login-container {
+		.jumbotron {
+			margin-top:50px;
+		}
 	}
 	.navbar-home {
 		font-size:14px;
@@ -74,27 +85,30 @@ body {
 		}
 	}
 
-}
-.login-container {
-	max-width: 500px;
-	margin: 0 auto;
-	input[type=text] {
-		padding:20px 10px 20px 10px;
+	a.linked {
+		opacity: 0.3;
 	}
-	input[type=password] {
-		padding:20px 10px 20px 10px;
-	}
-	.create-user, .sign-in {
-		margin:20px 0 20px 0;
-	}
-	.btn-social {
-		width:25%;
-		padding:10px;
-		text-align:center;
-		i {
-			border-right:none;
-			position:relative;
+
+	.login-container {
+		max-width: 500px;
+		margin: 0 auto;
+		input[type=text] {
+			padding:20px 10px 20px 10px;
+		}
+		input[type=password] {
+			padding:20px 10px 20px 10px;
+		}
+		.create-user, .sign-in {
+			margin:20px 0 20px 0;
+		}
+		.btn-social {
+			width:25%;
+			padding:10px;
+			text-align:center;
+			i {
+				border-right:none;
+				position:relative;
+			}
 		}
 	}
 }
-

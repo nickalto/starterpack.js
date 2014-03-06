@@ -2,8 +2,11 @@ extends layout
 
 block content
   .container
+    if (user.picture !== null)
+      img.img-circle.img-responsive(src="#{user.picture}" alt="#{user.first_name}")
+
     .login-container
-      form.form-horizontal.form-signin(action="/user/update" method="POST")
+      form.form-horizontal.form-signin.update-user(action="/user/update" method="POST")
         h2.form-signin-heading Update Information
         br
         .form-group
@@ -43,7 +46,7 @@ block content
 
         button.btn.btn-lg.btn-primary.btn-block.sign-in(type="submit") Update
 
-      form.form-horizontal.form-signin(action="/user/password" method="POST")
+      form.form-horizontal.form-signin.update-user(action="/user/password" method="POST")
         h2.form-signin-heading Update Password
         br
         .form-group
@@ -65,20 +68,20 @@ block content
 
       h2 Link Accounts
       br
-      a.btn.btn-social.btn-twitter(href="/auth/twitter")
+      a.btn.btn-social.btn-twitter(href="#{user.twitter_uid !== null ? '/twitter/unlink' : '/auth/twitter'}" class="#{user.twitter_uid !== null ? 'linked' : ''}")
         i.fa.fa-twitter 
 
-      a.btn.btn-social.btn-facebook(href="/auth/facebook")
+      a.btn.btn-social.btn-facebook(href="#{user.facebook_uid !== null ? '/facebook/unlink' : '/auth/facebook'}" class="#{user.facebook_uid !== null ? 'linked' : ''}")
         i.fa.fa-facebook 
 
-      a.btn.btn-social.btn-google-plus(href="/auth/google")
+      a.btn.btn-social.btn-google-plus(href="#{user.google_uid !== null ? '/google/unlink' : '/auth/google'}"  class="#{user.google_uid !== null ? 'linked' : ''}")
         i.fa.fa-google-plus  
 
-      a.btn.btn-social.btn-github(href="/auth/github")
+      a.btn.btn-social.btn-github(href="#{user.facebook_uid !== null ? '/github/unlink' : '/auth/github'}"  class="#{user.github_uid !== null ? 'linked' : ''}")
         i.fa.fa-github
 
 
       br
       br
-      form.form-signin(action="/user/delete" method="POST")
+      form.form-signin.update-user(action="/user/delete" method="POST")
         button.btn.btn-lg.btn-danger.btn-block.sign-in(type="submit") Delete User

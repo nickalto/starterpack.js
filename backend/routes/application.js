@@ -6,9 +6,10 @@ exports.home = function(req, res) {
     styles: [],
     nav_class: 'navbar-home',
     nav_links: [
+      { title: 'Home', href: '/home'},
     	{ title: 'Setup', href: '/setup'},
     	{ title: 'Update User', href: '/user/update'},
-		{ title: 'Logout', href: '/logout'}
+		  { title: 'Logout', href: '/logout'}
     ]
   });
 };
@@ -21,6 +22,7 @@ exports.setup = function(req, res) {
     nav_class: 'navbar-setup',
     nav_links: [
     	{ title: 'Home', href: '/home'},
+      { title: 'Setup', href: '/setup'},
     	{ title: 'Update User', href: '/user/update'},
 		  { title: 'Logout', href: '/logout'}
     ]
@@ -30,12 +32,15 @@ exports.setup = function(req, res) {
 exports.login = function(req, res) {
 	res.render('login', {
     	title: 'Login', 
+      nav_class: 'navbar-login',
 	    styles: [
 	    	{css: '../frontend/css/login/login.css'}
 	    ],
     	nav_links: [
+        { title: 'Home', href: '/home'},
     		{ title: 'Create User', href: '/create'},
-    	]
+    	],
+      user: req.user
   	});
 };
 
@@ -57,12 +62,16 @@ exports.createUser = function(req, res) {
 exports.updateUser = function(req, res) {
   res.render('update', {
       title: 'Update User', 
+      coffeescript: [
+        {js: '../frontend/js/controllers/postHelper.js'}
+      ],
       styles: [
         {css: '../frontend/css/login/login.css'}
       ],
       nav_links: [
         { title: 'Home', href: '/home'},
         { title: 'Setup', href: '/setup'},
+        { title: 'Update User', href: '/user/update'},
         { title: 'Logout', href: '/logout'}      
       ],
       user: req.user

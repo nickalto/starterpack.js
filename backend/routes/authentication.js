@@ -29,6 +29,9 @@ exports.localUpdate = function(req, res) {
 			console.log('update successful');
 			res.redirect('/user/update');
 		})
+		.failure(function(error) {
+	       return res.json({ error: { generic:'Error: ' + error } });
+		})
 	}
 };
 
@@ -58,6 +61,9 @@ exports.localPasswordUpdate = function(req, res) {
 				console.log('password update successful ' + req.body.new_password);
 				res.redirect('/user/update');
 			})
+			.failure(function(error) {
+		       return res.json({ error: { generic:'Error: ' + error } });
+			});
 	    }
 	  ]);
 
@@ -76,40 +82,83 @@ exports.localDelete = function(req, res) {
 	}
 }
 
+exports.unlink = function(req, res, attributes) {
+	var user = req.user;
+	user.updateAttributes(attributes)
+	.success(function() {
+		res.redirect('/user/update');
+	})
+	.failure(function(error) {
+       return res.json({ error: { generic:'Error: ' + error } });
+	});
+};
 
 exports.localAuthentication = passport.authenticate('local', { 
 	failureRedirect: '/login', 
 	successRedirect: '/home' 
 });
 
+
 //google authentication
 exports.googleAuthentication = passport.authenticate('google');
 
 exports.googleCallback = passport.authenticate('google', { 
-	successRedirect: '/home?googlesuccess', 
-	failureRedirect: '/login?googlefailure' 
+	successRedirect: '/home?success', 
+	failureRedirect: '/login?failure' 
 });
+
+exports.googleUnlink = function(req, res) {
+	exports.unlink( req, res, { 
+		google_uid: null,
+		google_accesstoken: null,
+		google_refreshtoken: null 
+	});
+};
 
 //twitter authentication
 exports.twitterAuthentication = passport.authenticate('twitter');
 
 exports.twitterCallback = passport.authenticate('twitter', { 
-	successRedirect: '/home?twittersuccess',
-	failureRedirect: '/login?twitterfailure' 
+	successRedirect: '/home?success',
+	failureRedirect: '/login?failure' 
 });
+
+exports.twitterUnlink = function(req, res) {
+	exports.unlink( req, res, { 
+		twitter_uid: null,
+		twitter_accesstoken: null,
+		twitter_refreshtoken: null 
+	});
+};
 
 //facebook authentication
 exports.facebookAuthentication = passport.authenticate('facebook');
 
 exports.facebookCallback = passport.authenticate('facebook', { 
-	successRedirect: '/home?facebooksuccess', 
-	failureRedirect: '/login?facebookfailure' 
+	successRedirect: '/home?success', 
+	failureRedirect: '/login?failure' 
 });
+
+exports.facebookUnlink = function(req, res) {
+	exports.unlink( req, res, { 
+		facebook_uid: null,
+		facebook_accesstoken: null,
+		facebook_refreshtoken: null 
+	});
+};
 
 //github authentication
 exports.githubAuthentication = passport.authenticate('github');
 
 exports.githubCallback = passport.authenticate('github', { 
-	successRedirect: '/home?githubsuccess',
-	failureRedirect: '/login?githubfailure'
+	successRedirect: '/home?success',
+	failureRedirect: '/login?failure'
 });
+
+exports.githubUnlink = function(req, res) {
+	exports.unlink( req, res, { 
+		github_uid: null,
+		github_accesstoken: null,
+		github_refreshtoken: null 
+	});
+};
