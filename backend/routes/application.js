@@ -1,4 +1,3 @@
-var dirname = process.env.PWD;
 
 exports.home = function(req, res) {
 	res.render('Home', {
@@ -13,7 +12,6 @@ exports.home = function(req, res) {
     ]
   });
 };
-
 
 exports.setup = function(req, res) {
 	res.render('Setup', {
@@ -51,7 +49,7 @@ exports.createUser = function(req, res) {
 	    	{css: '../frontend/css/login/login.css'}
 	    ],
 	    coffeescript: [
-	    	{js: '../frontend/js/controllers/postHelper.js'}
+	    	{js: '../frontend/js/helpers/postHelper.js'}
 	    ],
     	nav_links: [
     		{ title: 'Login', href: '/login'},
@@ -63,7 +61,7 @@ exports.updateUser = function(req, res) {
   res.render('update', {
       title: 'Update User', 
       coffeescript: [
-        {js: '../frontend/js/controllers/postHelper.js'}
+        {js: '../frontend/js/helpers/postHelper.js'}
       ],
       styles: [
         {css: '../frontend/css/login/login.css'}

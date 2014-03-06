@@ -1,10 +1,5 @@
 module.exports = {
 
-  sendgrid: {
-    user: 'Your SendGrid Username',
-    password: 'Your SendGrid Password'
-  },
-
   facebook: {
     clientID: '250267481799901',
     clientSecret: 'b9b605f16fddfadb144ae4156df9f105',
@@ -33,4 +28,5 @@ module.exports = {
     scope: 'https://www.googleapis.com/auth/plus.login',
     passReqToCallback: true
   },
+  
 };

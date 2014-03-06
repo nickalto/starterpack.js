@@ -2,11 +2,11 @@ extends layout
 
 block content
   .container
-    if (user.picture !== null)
+    if (user.picture !== null && user.picture !== '')
       img.img-circle.img-responsive(src="#{user.picture}" alt="#{user.first_name}")
 
     .login-container
-      form.form-horizontal.form-signin.update-user(action="/user/update" method="POST")
+      form.form-horizontal.form-signin(action="/user/update" method="POST")
         h2.form-signin-heading Update Information
         br
         .form-group
@@ -44,9 +44,9 @@ block content
           .col-sm-10
             input.form-control(type="text" id="update_picture" placeholder="Picture Url"  autofocus="" autocomplete="off" name="picture" value="#{user.picture === null ? '' : user.picture}")
 
-        button.btn.btn-lg.btn-primary.btn-block.sign-in(type="submit") Update
+        button.btn.btn-lg.btn-primary.btn-block.sign-in.update-user(type="submit") Update
 
-      form.form-horizontal.form-signin.update-user(action="/user/password" method="POST")
+      form.form-horizontal.form-signin(action="/user/password" method="POST")
         h2.form-signin-heading Update Password
         br
         .form-group
@@ -64,7 +64,7 @@ block content
          .col-sm-10
            input.form-control(type="password" id="password_confirm_password" placeholder="Confirm New Password" required="" autofocus="" autocomplete="off" name="confirm_new_password" )
 
-        button.btn.btn-lg.btn-primary.btn-block.sign-in(type="submit") Update 
+        button.btn.btn-lg.btn-primary.btn-block.sign-in.update-user(type="submit") Update 
 
       h2 Link Accounts
       br
@@ -83,5 +83,5 @@ block content
 
       br
       br
-      form.form-signin.update-user(action="/user/delete" method="POST")
+      form.form-signin(action="/user/delete" method="POST")
         button.btn.btn-lg.btn-danger.btn-block.sign-in(type="submit") Delete User

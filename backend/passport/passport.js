@@ -33,6 +33,16 @@ exports.hashPassword = function (plaintext_password, callback) {
   });
 }
 
+exports.error = function(res, json) {
+  return res.json({ 
+    error: json
+  });
+};
+
+function isEmptyOrNull(value) {
+  return (value === null || value == '' || value == undefined);
+}; 
+
 // Create a local user
 exports.localAuthentication = function(req, res) {
   var password = null;
@@ -41,9 +51,7 @@ exports.localAuthentication = function(req, res) {
       User.find({ where: { username: req.body.username } })
         .done(function(error, user) {
           if(user) {
-            return res.json({ 
-              error: { username:'Username is already being used' } 
-            });
+            exports.error(res, { username:'Username is already being used' });
           }
           callback(null);
         });
@@ -64,7 +72,7 @@ exports.localAuthentication = function(req, res) {
         res.json({ redirect: '/login'});
       })
       .error(function(err) {
-        res.json({ error: err });
+          exports.error(res, { generic :'Error creating User' });
       })
     }
   ]);
@@ -77,7 +85,10 @@ passport.use(new LocalStrategy( function(username, password, done) {
       User.find({ where: { username: username } })
       .success(function(user) {
         callback(null, user);
-      });
+      })
+      .failure(function(error) {
+          return done(null, false, { message: 'User not found' });
+      })
     },
     function comparePassword(user, callback) {
       if( !user ) {
@@ -97,7 +108,6 @@ passport.use(new LocalStrategy( function(username, password, done) {
 
 //Sign in with Twitter
 passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, refreshToken, profile, done) {
- console.log('twitter auth ' + JSON.stringify(profile));
   async.series({
     findOrCreateUser: function(callback) {
       var query = req.user ? ["id = ?", req.user.id] : ["twitter_uid = ?", profile.id];
@@ -108,8 +118,8 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, ref
             twitter_uid: profile.id,
             twitter_accesstoken: accessToken,
             twitter_refreshtoken: refreshToken,
-            location: current_user.location === null ? profile._json.location : current_user.location,
-            picture: current_user.picture === null ? profile._json.profile_image_url : current_user.picture,
+            location: isEmptyOrNull(current_user.location) ? profile._json.location : current_user.location,
+            picture: isEmptyOrNull(current_user.picture) ? profile._json.profile_image_url : current_user.picture,
           });
           return done(null, current_user);
         } else {
@@ -127,11 +137,9 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, ref
             twitter_refreshtoken: refreshToken,
           })
           .success(function(user) {
-            console.log('twitter create user success!');
             return done(null, user);
           })
           .error(function(err) {
-            console.log('twitter create user failure :( ' + JSON.stringify(err));
             return done(null, false, { message: 'Error creating user' });
           })
         }
@@ -152,9 +160,9 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
             google_uid: profile._json.id,
             google_accesstoken: accessToken,
             google_refreshtoken: refreshToken,
-            location: current_user.location === null ? profile._json.locale : current_user.location,
-            picture: current_user.picture === null ? profile._json.picture : current_user.picture,
-            gender: current_user.gender === null ? profile._json.gender : current_user.gender,
+            location: isEmptyOrNull(current_user.location) ? profile._json.locale : current_user.location,
+            picture: isEmptyOrNull(current_user.picture) ? profile._json.picture : current_user.picture,
+            gender: isEmptyOrNull(current_user.gender) ? profile._json.gender : current_user.gender,
           });
           return done(null, current_user);
         } else {
@@ -172,11 +180,9 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
             google_refreshtoken: refreshToken,
           })
           .success(function(user) {
-            console.log('google create user success!');
             return done(null, user);
           })
           .error(function(err) {
-            console.log('google create user failure :( ' + JSON.stringify(err));
             return done(null, false, { message: 'Error creating user' });
           })
         }
@@ -187,7 +193,6 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
 
 //Sign in with Facebook
 passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, refreshToken, profile, done) {
-  console.log('facebook auth ' + JSON.stringify(profile));
   async.series({
     findOrCreateUser: function(callback) {
       var query = req.user ? ["id = ?", req.user.id] : ["facebook_uid = ?", profile.id];
@@ -199,9 +204,9 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
             facebook_uid: profile.id,
             facebook_accesstoken: accessToken,
             facebook_refreshtoken: refreshToken,
-            location: current_user.location === null ? profile._json.locale : current_user.location,
-            picture: current_user.picture === null ? profile_image : current_user.picture,
-            gender: current_user.gender === null ? profile.gender : current_user.gender,
+            location: isEmptyOrNull(current_user.location) ? profile._json.locale : current_user.location,
+            picture: isEmptyOrNull(current_user.picture) ? profile_image : current_user.picture,
+            gender: isEmptyOrNull(current_user.gender) ? profile.gender : current_user.gender,
           });
           return done(null, current_user);
         } else {
@@ -219,11 +224,9 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
             facebook_refreshtoken: refreshToken,
           })
           .success(function(user) {
-            console.log('facebook create user success!');
             return done(null, user);
           })
           .error(function(err) {
-            console.log('facebook create user failure :( ' + JSON.stringify(err));
             return done(null, false, { message: 'Error creating user' });
           })
         }
@@ -234,9 +237,9 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
 
 
 
+
 //Sign in with Github
 passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refreshToken, profile, done) {
-  console.log('github auth ' + JSON.stringify(profile));
   async.series({
     findOrCreateUser: function(callback) {
       var query = req.user ? ["id = ?", req.user.id] : ["facebook_uid = ?", profile.id];
@@ -247,8 +250,8 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
             github_uid: profile.id,
             github_accesstoken: accessToken,
             github_refreshtoken: refreshToken,
-            location: current_user.location === null ? profile._json.location : current_user.location,
-            picture: current_user.picture === null ? profile._json.avatar_url : current_user.picture,
+            location: isEmptyOrNull(current_user.location) ? profile._json.location : current_user.location,
+            picture: isEmptyOrNull(current_user.picture) ? profile._json.avatar_url : current_user.picture,
           });
           return done(null, current_user);
         } else {
@@ -266,11 +269,9 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
             github_refreshtoken: refreshToken,
           })
           .success(function(user) {
-            console.log('github create user success!');
             return done(null, user);
           })
           .error(function(err) {
-            console.log('github create user failure :( ' + JSON.stringify(err));
             return done(null, false, { message: 'Error creating user' });
           })
         }

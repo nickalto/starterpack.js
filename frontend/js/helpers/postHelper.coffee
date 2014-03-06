@@ -3,7 +3,7 @@ class @PostHelper
     this.init()
 
   init: =>
-    $('.login-container').on('click', '.create-user .update-user', this.onUserCreatePost)
+    $('.login-container').on('click', '.create-user, .update-user', this.onUserCreatePost)
 
   onUserCreatePost: (e) =>
     target = $(e.currentTarget)
