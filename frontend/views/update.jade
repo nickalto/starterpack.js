@@ -3,7 +3,7 @@ extends layout
 block content
   .container
     .login-container
-      form.form-horizontal.form-signin(action="/user" method="PUT")
+      form.form-horizontal.form-signin(action="/user/update" method="POST")
         h2.form-signin-heading Update Information
         br
         .form-group
@@ -29,27 +29,27 @@ block content
         .form-group
           label.col-sm-2.control-label(for='update_gender') Gender
           .col-sm-10
-            input.form-control(type="text" id="update_gender" placeholder="Gender" required="" autofocus="" autocomplete="off" name="gender" value="#{user.gender === null ? '' : user.gender}")
+            input.form-control(type="text" id="update_gender" placeholder="Gender" autofocus="" autocomplete="off" name="gender" value="#{user.gender === null ? '' : user.gender}")
 
         .form-group
           label.col-sm-2.control-label(for='update_location') Location
           .col-sm-10
-            input.form-control(type="text" id="update_location" placeholder="Location" required="" autofocus="" autocomplete="off" name="location" value="#{user.location === null ? '' : user.location}")
+            input.form-control(type="text" id="update_location" placeholder="Location"  autofocus="" autocomplete="off" name="location" value="#{user.location === null ? '' : user.location}")
 
         .form-group
           label.col-sm-2.control-label(for='update_picture') Picture
           .col-sm-10
-            input.form-control(type="text" id="update_picture" placeholder="Picture Url" required="" autofocus="" autocomplete="off" name="picture" value="#{user.location === null ? '' : user.location}")
+            input.form-control(type="text" id="update_picture" placeholder="Picture Url"  autofocus="" autocomplete="off" name="picture" value="#{user.picture === null ? '' : user.picture}")
 
         button.btn.btn-lg.btn-primary.btn-block.sign-in(type="submit") Update
 
-      form.form-horizontal.form-signin(action="/user" method="PUT")
+      form.form-horizontal.form-signin(action="/user/password" method="POST")
         h2.form-signin-heading Update Password
         br
         .form-group
           label.col-sm-2.control-label(for='password_old_password') Current
           .col-sm-10
-            input.form-control(type="password" id="password_old_password" placeholder="Old Password" required="" autofocus="" autocomplete="off" name="old_password" value="#{user.password === null ? '' : user.password}")
+            input.form-control(type="password" id="password_old_password" placeholder="Old Password" required="" autofocus="" autocomplete="off" name="old_password" )
 
         .form-group
          label.col-sm-2.control-label(for='password_new_password') New
@@ -80,5 +80,5 @@ block content
 
       br
       br
-      form.form-signin(action="/user" method="DELETE")
+      form.form-signin(action="/user/delete" method="POST")
         button.btn.btn-lg.btn-danger.btn-block.sign-in(type="submit") Delete User

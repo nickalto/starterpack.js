@@ -68,6 +68,14 @@ exports.localAuthentication = function(req, res) {
   });
 };
 
+exports.hashPassword = function(plaintext_password, callback) {
+  bcrypt.hash(plaintext_password, 5, function(err, password) {
+      if(err) {
+        return new Error('backend/passport/passport.js: bcrypt hashing error');
+      }
+      callback(null, password);
+  });
+}
 
 //Sign in using username and Password.
 passport.use(new LocalStrategy( function(username, password, done) {
