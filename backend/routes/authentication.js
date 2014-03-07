@@ -15,23 +15,36 @@ exports.localCreate = function(req, res) {
 
 exports.localUpdate = function(req, res) {
 	var user = req.user;
-	if(user) {
-		user.updateAttributes({
-			first_name: req.body.first_name,
-			last_name: req.body.last_name,
-			username: req.body.username,
-			email_address: req.body.email_address,
-			gender: req.body.gender,
-			location: req.body.location,
-			picture: req.body.picture
-		})
-		.success(function() {
-			res.json({ redirect: '/user/update'});
-		})
-		.failure(function(error) {
-	       auth.error(res, { generic: 'Error: ' + error });
-		})
-	}
+	async.waterfall([
+    function validateUsername (callback) {
+      User.find({ where: { username: req.body.username } })
+        .done(function(error, user) {
+          if(user) {
+            exports.error(res, { username:'Username is already being used' });
+          }
+          callback(null);
+        });
+    },
+    function updateUser(hashed_password, callback) {
+		if(user) {
+			user.updateAttributes({
+				first_name: req.body.first_name,
+				last_name: req.body.last_name,
+				username: req.body.username,
+				email_address: req.body.email_address,
+				gender: req.body.gender,
+				location: req.body.location,
+				picture: req.body.picture
+			})
+			.success(function() {
+				res.json({ redirect: '/user/update'});
+			})
+			.failure(function(error) {
+		       auth.error(res, error );
+			})
+		}
+    }
+  ]);
 };
 
 exports.localPasswordUpdate = function(req, res) {
@@ -44,10 +57,15 @@ exports.localPasswordUpdate = function(req, res) {
 					callback(null, password_match);
 				});
 	 		} else {
-	      	 auth.error(res, { confirm_new_password:'Passwords do not match' });
+	      	 auth.error(res, { new_password:'Passwords do not match' });
             }
 	    },
 	    function hashPassword(password_match, callback) {
+	    	console.log(req.body.new_password);
+	    	if(req.body.new_password.length > 0 && req.body.new_password != '') {
+		       auth.error(res, { new_password:'Invalid new password' });
+	    	}
+
 	    	if(password_match) {
 		    	auth.hashPassword(req.body.new_password, callback);
 		    } else {
@@ -61,7 +79,7 @@ exports.localPasswordUpdate = function(req, res) {
 				res.json({ redirect: '/user/update'})
 			})
 			.failure(function(error) {
-		       auth.error(res, { generic:'Error: ' + error });
+		       auth.error(res, error );
 			});
 	    }
 	  ]);
@@ -87,7 +105,7 @@ exports.unlink = function(req, res, attributes) {
 		res.redirect('/user/update');
 	})
 	.failure(function(error) {
-       auth.error(res, { generic:'Error: ' + error });
+       auth.error(res, error );
 	});
 };
 

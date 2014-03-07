@@ -9,8 +9,8 @@ class @PostHelper
     target = $(e.currentTarget)
     form = $(target.closest('form'))
     e.preventDefault()
-    console.log('fkjda;fnkdla; ' + form.attr('action') + ' ' + form.attr('method') + ' ' + form.serialize())
     $('.error').remove()
+    $('.label-error').removeClass('label_error')
 
     $.ajax form.attr('action'),
         type: form.attr('method')
@@ -20,7 +20,13 @@ class @PostHelper
         success: (data, status, headers, config) -> 
         	if data.error 
         		for key, value of data.error
-        			$('body').append('<p class="error">' + value + '</p>')
+                    console.log('error key = ' + key + ' value = ' + value)
+                    if (key == 'body')
+                        $('.navbar').after('<p class="error_message">' + value + '</p>')
+                    else 
+                        element = "input[name='" + key + "']"
+                        $("label[for='" + key + "']").addClass('label-error')
+                        $(element).before('<p class="error label-error">' + value + '</p>')
         	else 
         		window.location = data.redirect
 

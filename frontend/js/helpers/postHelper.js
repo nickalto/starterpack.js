@@ -20,6 +20,7 @@
       e.preventDefault();
       console.log('fkjda;fnkdla; ' + form.attr('action') + ' ' + form.attr('method') + ' ' + form.serialize());
       $('.error').remove();
+      $('.label-error').removeClass('label_error');
       return $.ajax(form.attr('action'), {
         type: form.attr('method'),
         data: form.serialize(),
@@ -27,13 +28,20 @@
           return console.log('create user failure');
         },
         success: function(data, status, headers, config) {
-          var key, value, _ref, _results;
+          var element, key, value, _ref, _results;
           if (data.error) {
             _ref = data.error;
             _results = [];
             for (key in _ref) {
               value = _ref[key];
-              _results.push($('body').append('<p class="error">' + value + '</p>'));
+              console.log('error key = ' + key + ' value = ' + value);
+              if (key === 'body') {
+                _results.push($('.navbar').after('<p class="error_message">' + value + '</p>'));
+              } else {
+                element = "input[name='" + key + "']";
+                $("label[for='" + key + "']").addClass('label-error');
+                _results.push($(element).before('<p class="error label-error">' + value + '</p>'));
+              }
             }
             return _results;
           } else {

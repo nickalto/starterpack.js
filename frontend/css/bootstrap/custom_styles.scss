@@ -16,6 +16,9 @@ body {
 	form {
 		margin: 50px 0;
 	}
+	.label-error {
+		color:red;
+	}
 	.form-horizontal .control-label {
 		white-space: nowrap;
 		text-align: left;

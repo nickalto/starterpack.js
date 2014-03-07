@@ -10,39 +10,39 @@ block content
         h2.form-signin-heading Update Information
         br
         .form-group
-          label.col-sm-2.control-label(for='update_first_name') First name
+          label.col-sm-2.control-label(for='first_name') First name
           .col-sm-10
-            input.form-control(type="text" id="update_first_name" placeholder="First name" required="" autofocus="" autocomplete="off" name="first_name" value="#{user.first_name === null ? '' : user.first_name}")
+            input.form-control(type="text" id="first_name" placeholder="First name" required="" autofocus="" autocomplete="off" name="first_name" value="#{user.first_name === null ? '' : user.first_name}")
       
         .form-group
-          label.col-sm-2.control-label(for='update_last_name') Last name
+          label.col-sm-2.control-label(for='last_name') Last name
           .col-sm-10
-            input.form-control(type="text" id="update_last_name" placeholder="Last name" required="" autofocus="" autocomplete="off" name="last_name" value="#{user.last_name === null ? '' : user.last_name}")
+            input.form-control(type="text" id="last_name" placeholder="Last name" required="" autofocus="" autocomplete="off" name="last_name" value="#{user.last_name === null ? '' : user.last_name}")
 
         .form-group
-          label.col-sm-2.control-label(for='update_username') Username
+          label.col-sm-2.control-label(for='username') Username
           .col-sm-10
-            input.form-control(type="text" id="update_username" placeholder="Username" required="" autofocus="" autocomplete="off" name="username" value="#{user.username === null ? '' : user.username}")
+            input.form-control(type="text" id="username" placeholder="Username" required="" autofocus="" autocomplete="off" name="username" value="#{user.username === null ? '' : user.username}")
 
         .form-group    
-          label.col-sm-2.control-label(for='update_email_address') Email
+          label.col-sm-2.control-label(for='email_address') Email
           .col-sm-10
-            input.form-control(type="text" id="update_email_address" placeholder="Email address" required="" autofocus="" autocomplete="off" name="email_address" value="#{user.email_address === null ? '' : user.email_address}")
+            input.form-control(type="text" id="email_address" placeholder="Email address" required="" autofocus="" autocomplete="off" name="email_address" value="#{user.email_address === null ? '' : user.email_address}")
 
         .form-group
-          label.col-sm-2.control-label(for='update_gender') Gender
+          label.col-sm-2.control-label(for='gender') Gender
           .col-sm-10
-            input.form-control(type="text" id="update_gender" placeholder="Gender" autofocus="" autocomplete="off" name="gender" value="#{user.gender === null ? '' : user.gender}")
+            input.form-control(type="text" id="gender" placeholder="Gender" autofocus="" autocomplete="off" name="gender" value="#{user.gender === null ? '' : user.gender}")
 
         .form-group
-          label.col-sm-2.control-label(for='update_location') Location
+          label.col-sm-2.control-label(for='location') Location
           .col-sm-10
-            input.form-control(type="text" id="update_location" placeholder="Location"  autofocus="" autocomplete="off" name="location" value="#{user.location === null ? '' : user.location}")
+            input.form-control(type="text" id="location" placeholder="Location"  autofocus="" autocomplete="off" name="location" value="#{user.location === null ? '' : user.location}")
 
         .form-group
-          label.col-sm-2.control-label(for='update_picture') Picture
+          label.col-sm-2.control-label(for='picture') Picture
           .col-sm-10
-            input.form-control(type="text" id="update_picture" placeholder="Picture Url"  autofocus="" autocomplete="off" name="picture" value="#{user.picture === null ? '' : user.picture}")
+            input.form-control(type="text" id="picture" placeholder="Picture Url"  autofocus="" autocomplete="off" name="picture" value="#{user.picture === null ? '' : user.picture}")
 
         button.btn.btn-lg.btn-primary.btn-block.sign-in.update-user(type="submit") Update
 
@@ -50,19 +50,19 @@ block content
         h2.form-signin-heading Update Password
         br
         .form-group
-          label.col-sm-2.control-label(for='password_old_password') Current
+          label.col-sm-2.control-label(for='old_password') Current
           .col-sm-10
-            input.form-control(type="password" id="password_old_password" placeholder="Old Password" required="" autofocus="" autocomplete="off" name="old_password" )
+            input.form-control(type="password" id="old_password" placeholder="Old Password" required="" autofocus="" autocomplete="off" name="old_password" )
 
         .form-group
-         label.col-sm-2.control-label(for='password_new_password') New
+         label.col-sm-2.control-label(for='new_password') New
          .col-sm-10
-           input.form-control(type="password" id="password_new_password" placeholder="New Password" required="" autofocus="" autocomplete="off" name="new_password" )
+           input.form-control(type="password" id="new_password" placeholder="New Password" required="" autofocus="" autocomplete="off" name="new_password" )
 
         .form-group
-         label.col-sm-2.control-label(for='password_confirm_password') New
+         label.col-sm-2.control-label(for='confirm_password') New
          .col-sm-10
-           input.form-control(type="password" id="password_confirm_password" placeholder="Confirm New Password" required="" autofocus="" autocomplete="off" name="confirm_new_password" )
+           input.form-control(type="password" id="confirm_password" placeholder="Confirm New Password" required="" autofocus="" autocomplete="off" name="confirm_new_password" )
 
         button.btn.btn-lg.btn-primary.btn-block.sign-in.update-user(type="submit") Update 
 

@@ -7,6 +7,8 @@ body {
     margin-top: 50px; }
   body form {
     margin: 50px 0; }
+  body .label-error {
+    color: red; }
   body .form-horizontal .control-label {
     white-space: nowrap;
     text-align: left; }

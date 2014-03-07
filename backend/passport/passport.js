@@ -72,7 +72,7 @@ exports.localAuthentication = function(req, res) {
         res.json({ redirect: '/login'});
       })
       .error(function(err) {
-          exports.error(res, { generic :'Error creating User' });
+          exports.error(res, err);
       })
     }
   ]);
