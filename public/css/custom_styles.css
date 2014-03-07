@@ -1,0 +1,71 @@
+body {
+  margin-bottom: 100px; }
+  body .container .img-circle {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-top: 50px; }
+  body form {
+    margin: 50px 0; }
+  body .label-error {
+    color: red; }
+  body .form-horizontal .control-label {
+    white-space: nowrap;
+    text-align: left; }
+  body .navbar {
+    margin-bottom: 0; }
+  body p, body li {
+    line-height: 1.75em; }
+  body .login-container .jumbotron {
+    margin-top: 50px; }
+  body .navbar-home {
+    font-size: 14px;
+    background-color: lightseagreen; }
+    body .navbar-home .navbar-nav li a:hover {
+      background-color: #1fa59e; }
+    @media screen and (max-width: 767px) {
+      body .navbar-home .navbar-collapse, body .navbar-home .navbar-default .navbar-form {
+        border-color: #1a807b;
+        background-color: #1a807b; } }
+    body .navbar-home .navbar-toggle:hover .icon-bar {
+      background-color: #1a807b; }
+  body .navbar-setup {
+    font-size: 14px;
+    background-color: #e9696d; }
+    body .navbar-setup .navbar-nav li a:hover {
+      background-color: #d16f6f; }
+    @media screen and (max-width: 767px) {
+      body .navbar-setup .navbar-collapse, body .navbar-setup .navbar-default .navbar-form {
+        border-color: #b45f5f;
+        background-color: #b45f5f; } }
+    body .navbar-setup .navbar-toggle:hover .icon-bar {
+      background-color: #b45f5f; }
+  body .hero {
+    width: 100%;
+    height: 300px; }
+    body .hero.navbar-setup {
+      background: #e9696d; }
+    body .hero.navbar-home {
+      background: lightseagreen; }
+  body .navbar-header {
+    margin-left: 5px; }
+    body .navbar-header a {
+      font-size: 18px; }
+  body a.linked {
+    opacity: 0.3; }
+  body .login-container {
+    max-width: 500px;
+    margin: 0 auto; }
+    body .login-container input[type=text] {
+      padding: 20px 10px 20px 10px; }
+    body .login-container input[type=password] {
+      padding: 20px 10px 20px 10px; }
+    body .login-container .create-user, body .login-container .sign-in {
+      margin: 20px 0 20px 0; }
+    body .login-container .btn-social {
+      width: 25%;
+      padding: 10px;
+      text-align: center; }
+      body .login-container .btn-social i {
+        border-right: none;
+        position: relative; }

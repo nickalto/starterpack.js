@@ -68,7 +68,7 @@ exports.localAuthentication = function(req, res) {
         password: hashed_password
       })
       .success(function(user) {
-        req.user = user;
+        req.user = req.session.user = user;
         res.json({ redirect: '/login'});
       })
       .error(function(err) {

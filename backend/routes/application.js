@@ -31,9 +31,6 @@ exports.login = function(req, res) {
 	res.render('login', {
     	title: 'Login', 
       nav_class: 'navbar-login',
-	    styles: [
-	    	{css: '../frontend/css/login/login.css'}
-	    ],
     	nav_links: [
         { title: 'Home', href: '/home'},
     		{ title: 'Create User', href: '/create'},
@@ -45,11 +42,8 @@ exports.login = function(req, res) {
 exports.createUser = function(req, res) {
 	res.render('create', {
     	title: 'Create User', 
-	    styles: [
-	    	{css: '../frontend/css/login/login.css'}
-	    ],
 	    coffeescript: [
-	    	{js: '../frontend/js/helpers/postHelper.js'}
+	    	{js: '/js/postHelper.js'}
 	    ],
     	nav_links: [
     		{ title: 'Login', href: '/login'},
@@ -61,10 +55,7 @@ exports.updateUser = function(req, res) {
   res.render('update', {
       title: 'Update User', 
       coffeescript: [
-        {js: '../frontend/js/helpers/postHelper.js'}
-      ],
-      styles: [
-        {css: '../frontend/css/login/login.css'}
+        {js: '/js/postHelper.js'}
       ],
       nav_links: [
         { title: 'Home', href: '/home'},

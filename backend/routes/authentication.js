@@ -1,5 +1,6 @@
 var auth = require('../passport/passport'),
 bcrypt	 = require('bcrypt'),
+User 	 = require('../db/sql').User,
 async	 = require('async'),
 passport = require('passport');
 
@@ -18,9 +19,9 @@ exports.localUpdate = function(req, res) {
 	async.waterfall([
     function validateUsername (callback) {
       User.find({ where: { username: req.body.username } })
-        .done(function(error, user) {
-          if(user) {
-            exports.error(res, { username:'Username is already being used' });
+        .done(function(error, found_user) {
+          if(found_user.id != user.id) {
+            auth.error(res, { username:'Username is already being used' });
           }
           callback(null);
         });
@@ -37,7 +38,7 @@ exports.localUpdate = function(req, res) {
 				picture: req.body.picture
 			})
 			.success(function() {
-				res.json({ redirect: '/user/update'});
+				res.json({ redirect: '/user/update' });
 			})
 			.failure(function(error) {
 		       auth.error(res, error );
@@ -61,8 +62,7 @@ exports.localPasswordUpdate = function(req, res) {
             }
 	    },
 	    function hashPassword(password_match, callback) {
-	    	console.log(req.body.new_password);
-	    	if(req.body.new_password.length > 0 && req.body.new_password != '') {
+	    	if(req.body.new_password.length == 0) {
 		       auth.error(res, { new_password:'Invalid new password' });
 	    	}
 
@@ -75,7 +75,6 @@ exports.localPasswordUpdate = function(req, res) {
 	    function updatePassword(hashed_password, callback) {
 			user.updateAttributes({ password: hashed_password })
 			.success(function() {
-				console.log('password update successful ' + req.body.new_password);
 				res.json({ redirect: '/user/update'})
 			})
 			.failure(function(error) {
