@@ -3,17 +3,139 @@ extends layout
 block content
   .hero(class="#{nav_class}")
   .container
-    h1 Setup
+    h1 Starterpack Setup
+    hr
+    h2 General
+    :markdown
 
-    p
-      | Tousled Portland wayfarers keytar letterpress Etsy, fap biodiesel lomo tote bag organic kogi VHS try-hard. Tofu locavore Brooklyn, Etsy fashion axe street art hella pop-up Cosby sweater wayfarers fanny pack wolf. You probably haven't heard of them YOLO Pinterest squid four loko, ethnic swag Etsy viral leggings tousled. Next level paleo Pitchfork Carles, craft beer flexitarian sartorial. Shabby chic Banksy Echo Park actually. Fixie meggings fanny pack photo booth Blue Bottle. Cred bespoke biodiesel beard banh mi occupy.
+      ### Prerequisites
+         - MySQL
+         - SASS
+         - Node.js
 
-      br 
-      br
+      ### DB Setup
+      In backend/db/sql.js enter your database credentials - currently defaulting to [user:root] [password:password] - quite secure. For more information on setting up a [MySQL DB](https://dev.mysql.com/tech-resources/articles/mysql_intro.html)
 
-      | Readymade cardigan leggings tofu, disrupt Intelligentsia gastropub irony. Flexitarian whatever wolf wayfarers Echo Park, YOLO mlkshk Williamsburg. Hashtag banjo tofu, biodiesel hella Bushwick kogi 8-bit ugh occupy retro iPhone Tumblr cornhole. Mustache cray cornhole fixie, bicycle rights brunch organic post-ironic hashtag VHS literally sartorial actually master cleanse plaid. Asymmetrical Tonx direct trade, ugh single-origin coffee seitan butcher normcore whatever retro. Gluten-free pop-up cardigan American Apparel, Pinterest Carles fixie fashion axe umami. Pork belly selvage flannel, swag mumblecore blog post-ironic leggings PBR artisan salvia.
+      ### SSL (optional) 
+      For creating self-signed SSL certificates the guys at Heroku have an [awesome guide](https://devcenter.heroku.com/articles/ssl-certificate-self).
 
-      br
-      br
+      ### Tips
+      Depending on your IDE/editor/environment you may already have SASS/Coffeescript compilation setup on save of a file. For those who don't I would highly recommend Sublime Text and it's package manager. For more information about [SASS](http://sass-lang.com/) and [CoffeeScript](http://coffeescript.org/). I would highly recommend looking into an automatic build environment for both SASS and CoffeeScript, it will save you lots of time and a few headaches. 
+      
+      > **Coffeescript compilation**: _'coffee -c Starterpack.js/views/js/postHelper.coffee'_
 
-      | Organic art party normcore fixie try-hard. Pickled Carles Pitchfork bitters Wes Anderson, disrupt meh wayfarers Bushwick artisan. Post-ironic lo-fi Terry Richardson readymade selfies, disrupt try-hard cardigan twee ugh. Odd Future fap Thundercats viral, art party tote bag bicycle rights try-hard bespoke Wes Anderson. Bicycle rights kale chips direct trade food truck sustainable cred, typewriter paleo try-hard church-key bitters single-origin coffee asymmetrical jean shorts. Swag plaid single-origin coffee tofu, tote bag Etsy letterpress jean shorts lomo gastropub banh mi McSweeney's roof party. Lomo trust fund Helvetica Austin, fanny pack wolf bicycle rights Williamsburg jean shorts post-ironic brunch.
+      > **SASS compilation**: _'sass --watch path/sass-directory:path/css-directory'_ or the much less elegant way: _'sass custom_styles.scss > custom_styles.css'_
+
+
+    br
+    hr 
+    br
+    h2 Passport.js
+    :markdown
+      Here's a great article that explains the authentication flow of **[Passport.js](http://toon.io/articles/understanding-passportjs-authentication-flow/)**, please refer to this if you have any questions about application flow.
+
+
+      Currently only the user id is being serialized via Passport which means that for each route there is a db hit in order to populate the req.user. This is less than ideal when you want to hit a route that doesn't access any data from the user model, it results in an unnecessary db query. There are ways around this issue, such as serializing the entire user model but I have opted for the solution of serializing only the user id. 
+
+      For social authentication, the approach is fairly simple. The API keys for social services are stored in db/passport/secrets.js, you will need to populate these with your own keys. Instructions on populating these keys please refer to the following sections for each service. I'll try to keep these instructions as up to date as possible.
+
+      ### Facebook
+      > In order to integrate Facebook authentiction there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
+
+      > - Navigate to [developers.facebook.com/apps](https://developers.facebook.com/apps/) and create a new application
+      >   - There are a few additional steps to verify youself as a developer - sms verification, etc. 
+      > - If you're working off localhost make sure to Settings -> Add Platform -> Website -> Site Url: http://127.0.0.1:3000/
+      > - Copy App ID and App Secret into db/passport/secrets.js 
+
+      ### Twitter
+      > In order to integrate Twitter authentiction there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
+
+      > - Navigate to [apps.twitter.com](https://apps.twitter.com/) and create a new application
+      > - Set callback URL to http://127.0.0.1:3000/auth/twitter/callback
+      > - Check box in order to allow this application to be used with _Sign in with Twitter_
+      > - Copy API Key and API Secret into db/passport/secrets.js
+
+      ### Google
+      > In order to integrate Google authentiction there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
+
+      > - Navigate to [console.developers.google.com](https://console.developers.google.com/project) and create a new project
+      > - Under API/Auth -> Credentials and create a _Client ID for web application_
+      > - For localhost set _Redirect URIs:_ http://127.0.0.1:3000/auth/google/callback, as well as _Javascript Origins:_ http://localhost:3000/
+      > - Copy Client ID and clientSecret into db/passport/secrets.js
+      > - Authentication strategy is currently set to G+ login (https://www.googleapis.com/auth/plus.login) but other strategies are [available](https://developers.google.com/+/api/oauth)
+
+      ### Github
+      > In order to integrate gitHub authentiction there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
+
+      > - Log into to GitHub -> Settings -> Applications -> _Register New application_
+      > - Set callback URL to http://127.0.0.1:3000/auth/github/callback
+      > - Copy Client ID and Client Secret into db/passport/secrets.js
+
+      ### Other Providers
+      > If you wish to link other providers, you can leverage the current social authentication strategies to work for you. Secrets are located in db/passport/secrets.js, and authentication strategies for passport are located in db/passport/passport.js. The authentication strategies shouldn't be too much different from one another so you can leverage the other strategies as a structure for how to authentication with new providers. 
+
+    br
+    hr
+    br
+    h2 Sequelize.js
+    :markdown 
+      If you have any questions about sequelize.js please refer to their thorough **[documentation](http://sequelizejs.com/docs/latest/installation)**.
+
+      Models are located in backend/models where you can modify the current user model along with model validations and a lot of other awesome stuff. I'm a big fan of Sequelize.js. 
+
+      The only drawback I've found with Sequelize is doing custom async model validations. This seems to be an issue that is fixed in newer versions (2.x.x branch) of Sequelize if you want to explore those routes. 
+
+
+    br
+    hr
+    br
+    h2 Project Layout
+    :markdown 
+      Quick overview of project layout and where to find what you're looking for. 
+
+      > - **Starterpack.js**
+      
+      >    - **backend**
+      >       - **db**
+      >           - _sql.js_ - Initialize database and sync models
+      >       - **models**
+      >           - _user.js_ - User model 
+      >       - **passport**
+      >           - _passport.js_ - All authorization strategies (local, facebook, twitter, etc) along with Passport.js specific functions (serializeUser/deserializeUse).
+      >           - _secrets.js_ - API keys for authentication via social platforms - see Passport.js section for more information
+      >       - **routes**
+      >           - _application.js_ - application specific routes (home, login, setup, etc). Broken out of router to keep it clean and managed. 
+      >           - _authentication.js_ - authentication routes, social account linking/unlinking etc. 
+
+      >    - **config**
+      >           - **ssl** - optional directory to store ssl certificatess
+      >           - _config.js_ - application configuration - initializing passport, sessions, jade view engine, etc. 
+
+      >    - **public**
+      >           - **css** - currently using yeti bootstrap theme with customizations in custom_styles.scss
+      >           - **js** - bootstrap, jquery, and postHelper - a helper function for ajax posts
+      >           - **views** - jade views inherenting from layout.jade and navigation.jade
+
+      >    - _router.js_ - node app, where we initialize server with configurations and initilize routes.
+
+
+    br
+    hr
+    br
+    h2 About
+    :markdown 
+      > I needed a super-awesome Node.js/SQL stack. So I made one.
+      >
+      > -Nick Alto
+
+      For **kudos** and **positive feedback** feel free to email: 
+      
+      **[nickalto@gmail.com](mailto:nickalto@gmail.com)**
+
+
+      For **rants**, **negative feedback** and everything else email:
+
+      **[totallylegitemailaddress@aol.com](mailto:totallylegitemailaddress@aol.com)**
+      
+
+  
