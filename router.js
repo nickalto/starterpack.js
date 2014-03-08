@@ -1,4 +1,3 @@
-// Module dependencies
 var express	= require('express'),
 app 		= express(),
 config 		= require('./config/config').configure(app),
@@ -35,8 +34,11 @@ app.get('/auth/github', auth_routes.githubAuthentication);
 app.get('/github/unlink', auth_routes.isAuthenticated, auth_routes.githubUnlink);
 app.get('/auth/github/callback', auth_routes.githubCallback);
 
-
-//app.use( app_routes.catchall);
+// 404 catchall
+app.use( app_routes.catchall);
 
 http.createServer(app).listen(3000);
+
+/* //Uncomment for SSL
 https.createServer(app.ssl, app).listen(3001);
+*/

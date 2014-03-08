@@ -9,11 +9,12 @@ GitHubStrategy    = require('passport-github').Strategy,
 secrets           = require('./secrets'),
 User              = require('../db/sql').User;
 
-//Passport serialization
+//Passport required serialization
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
+// passport required deserialize find user given id from serialize
 passport.deserializeUser(function(id, done) {
   User.find({ where: { id: id } })
   .success(function(user) {
@@ -24,6 +25,7 @@ passport.deserializeUser(function(id, done) {
   })
 });
 
+// Use bcrypt to hash users plaintext password - plaintext is bad - hashed is good - bcrypt is great
 exports.hashPassword = function (plaintext_password, callback) {
   bcrypt.hash(plaintext_password, 5, function(err, password) {
       if(err) {
@@ -33,12 +35,14 @@ exports.hashPassword = function (plaintext_password, callback) {
   });
 }
 
+//Surfaces errors from sequelize
 exports.error = function(res, json) {
   return res.json({ 
     error: json
   });
 };
 
+// Helper function to test for valid value
 function isEmptyOrNull(value) {
   return (value === null || value == '' || value == undefined);
 }; 
@@ -47,6 +51,7 @@ function isEmptyOrNull(value) {
 exports.localAuthentication = function(req, res) {
   var password = null;
   async.waterfall([
+    // make sure username has not already been taken
     function validateUsername (callback) {
       User.find({ where: { username: req.body.username } })
         .done(function(error, user) {
@@ -56,9 +61,11 @@ exports.localAuthentication = function(req, res) {
           callback(null);
         });
     },
+    // encrypt password and pass it to create user
     function encryptPassword(callback) {
       exports.hashPassword(req.body.password, callback)
     },
+    // create user with hashed password
     function createUser(hashed_password, callback) {
       User.create({ 
         username: req.body.username,
@@ -81,6 +88,7 @@ exports.localAuthentication = function(req, res) {
 //Sign in using username and Password.
 passport.use(new LocalStrategy( function(username, password, done) {
   async.waterfall([
+    // look for user with given username
     function findUser(callback) {
       User.find({ where: { username: username } })
       .success(function(user) {
@@ -90,6 +98,7 @@ passport.use(new LocalStrategy( function(username, password, done) {
           return done(null, false, { message: 'User not found' });
       })
     },
+    // make sure password is valid
     function comparePassword(user, callback) {
       if( !user ) {
         return done(null, false, { message: 'Invalid email or password.' });
@@ -110,10 +119,12 @@ passport.use(new LocalStrategy( function(username, password, done) {
 passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, refreshToken, profile, done) {
   async.series({
     findOrCreateUser: function(callback) {
+      // If user is signed in search for current user otherwise search on twitter id
       var query = req.user ? ["id = ?", req.user.id] : ["twitter_uid = ?", profile.id];
       User.find({ where: query })
       .done(function( error, current_user ) {
         if( current_user ) {
+          // User found - update/link with twitter credentials
           current_user.updateAttributes({
             twitter_uid: profile.id,
             twitter_accesstoken: accessToken,
@@ -123,6 +134,7 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, ref
           });
           return done(null, current_user);
         } else {
+          // no user found - create account with credentials
           var name = profile._json.name.split(' ');
           User.create({ 
             first_name: name[0],
@@ -152,10 +164,12 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, ref
 passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refreshToken, profile, done) {
   async.series({
     findOrCreateUser: function(callback) {
+      // If user is signed in search for current user otherwise search on google id
       var query = req.user ? ["id = ?", req.user.id] : ["google_uid = ?", profile._json.id];
       User.find({ where: query })
       .done(function( error, current_user ) {
         if( current_user ) {
+          // found current user - link google account
           current_user.updateAttributes({
             google_uid: profile._json.id,
             google_accesstoken: accessToken,
@@ -167,6 +181,7 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
           return done(null, current_user);
         } else {
           User.create({ 
+            // no user found - create new user with google credentials
             first_name: profile._json.given_name,
             username: profile._json.name.replace(/ /g,'').toLowerCase(),
             email_address: 'email@provider.com',
@@ -191,15 +206,18 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
   });
 }));
 
+
 //Sign in with Facebook
 passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, refreshToken, profile, done) {
   async.series({
     findOrCreateUser: function(callback) {
+      // If user is signed in search for current user otherwise search on facebook id
       var query = req.user ? ["id = ?", req.user.id] : ["facebook_uid = ?", profile.id];
       var profile_image = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
       User.find({ where: query })
       .done(function( error, current_user ) {
         if( current_user ) {
+          // found current user - link facebook account
           current_user.updateAttributes({
             facebook_uid: profile.id,
             facebook_accesstoken: accessToken,
@@ -210,6 +228,7 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
           });
           return done(null, current_user);
         } else {
+          // no user found create new account from fb credentials
           User.create({ 
             first_name: profile.name.givenName,
             username: profile.username, 
@@ -236,16 +255,16 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
 }));
 
 
-
-
 //Sign in with Github
 passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refreshToken, profile, done) {
   async.series({
     findOrCreateUser: function(callback) {
-      var query = req.user ? ["id = ?", req.user.id] : ["facebook_uid = ?", profile.id];
+      // If user is signed in search for current user otherwise search on facebook id
+      var query = req.user ? ["id = ?", req.user.id] : ["github_uid = ?", profile.id];
       User.find({ where: query })
       .done(function( error, current_user ) {
         if( current_user ) {
+          // link github account to current user
            current_user.updateAttributes({
             github_uid: profile.id,
             github_accesstoken: accessToken,
@@ -255,6 +274,7 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
           });
           return done(null, current_user);
         } else {
+          // no user found - create new user with github credentials
           var name = profile._json.name.split(' ');
           User.create({ 
             username: profile.username, 

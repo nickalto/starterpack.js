@@ -3,18 +3,20 @@ class @PostHelper
     this.init()
 
   init: =>
+    # for any other forms that need validation add them here
     $('.login-container').on('click', '.create-user, .update-user', this.onUserCreatePost)
 
   onUserCreatePost: (e) =>
     target = $(e.currentTarget)
     form = $(target.closest('form'))
     e.preventDefault()
-    # remove errors
+
+    # remove errors from page
     $('.error').remove()
     $('.label-error').removeClass('label_error')
     form.find('form-group').removeClass('has-error')
 
-    # validations
+    # validate form
     for input in form.find('input')
         if( input.required && (input.value.length == 0 || input.value == '' ))
             return $(input).parent().parent().addClass('has-error')
@@ -28,6 +30,7 @@ class @PostHelper
         	console.log('create user failure')
         success: (data, status, headers, config) -> 
         	if data.error 
+                # if error - surface to body or to specific input depending on error type
         		for key, value of data.error
                     console.log('error key = ' + key + ' value = ' + value)
                     if (key == 'body')
