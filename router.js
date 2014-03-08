@@ -15,9 +15,9 @@ app.get('/logout', app_routes.logout);
 
 //local authentication routes
 app.post('/user/create', auth_routes.localCreate);	
-app.post('/user/delete', auth_routes.localDelete);
-app.post('/user/update', auth_routes.localUpdate);
-app.post('/user/password', auth_routes.localPasswordUpdate);
+app.post('/user/delete', auth_routes.isAuthenticated, auth_routes.localDelete);
+app.post('/user/update', auth_routes.isAuthenticated, auth_routes.localUpdate);
+app.post('/user/password', auth_routes.isAuthenticated, auth_routes.localPasswordUpdate);
 app.post('/login', auth_routes.localAuthentication);
 
 //social authentication routes

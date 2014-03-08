@@ -22,14 +22,16 @@ exports.localUpdate = function(req, res) {
     function validateUsername (callback) {
       User.find({ where: { username: req.body.username } })
         .done(function(error, found_user) {
-          if(found_user.id != user.id) {
-            auth.error(res, { username:'Username is already being used' });
+          if(user && found_user && found_user.id != user.id) {
+          	return res.json({ 
+    			error: { username:'Username is already being used' }
+  			});
           }
           callback(null);
         });
     },
     // Further validations for updating can be put here, otherwise update user
-    function updateUser(hashed_password, callback) {
+    function updateUser(callback) {
 		if(user) {
 			user.updateAttributes({
 				first_name: req.body.first_name,
@@ -41,15 +43,16 @@ exports.localUpdate = function(req, res) {
 				picture: req.body.picture
 			})
 			.success(function() {
-				res.json({ redirect: '/user/update' });
+				return res.json({ redirect: '/user/update' });
 			})
 			.failure(function(error) {
-		       auth.error(res, error );
+		       return res.json({ error: error }); 
 			})
 		}
     }
   ]);
 };
+
 
 // Update local user's password
 exports.localPasswordUpdate = function(req, res) {
@@ -58,24 +61,30 @@ exports.localPasswordUpdate = function(req, res) {
 	 async.waterfall([
 	 	// Validate that user has entered current password correctly and that new passwords match
 	    function validatePassword(callback) {
-	    	if(req.body.new_password === req.body.confirm_new_password) { 
+	    	if(req.body.new_password === req.body.confirm_password) { 
 		 		bcrypt.compare(req.body.old_password, req.user.password, function(err, password_match) {password_match, 
 					callback(null, password_match);
 				});
 	 		} else {
-	      	 auth.error(res, { new_password:'Passwords do not match' });
+	          	return res.json({ 
+	    			error: { new_password:'Passwords do not match' }
+				});
             }
 	    },
 	    // If user entered valid current password and valid new password hash new password to store in db
 	    function hashPassword(password_match, callback) {
 	    	if(req.body.new_password.length == 0) {
-		       auth.error(res, { new_password:'Invalid new password' });
-	    	}
+		       	return res.json({ 
+	    			error: { new_password:'Invalid new password' }
+				});
 
-	    	if(password_match) {
+	    	} else if(password_match) {
 		    	auth.hashPassword(req.body.new_password, callback);
+
 		    } else {
-		       auth.error(res, { old_password:'Incorrect password' });
+	          	return res.json({ 
+	    			error: { old_password:'Incorrect password' }
+				});
 		    }
 	    },
 	    // Update user with new hashed password
@@ -85,7 +94,7 @@ exports.localPasswordUpdate = function(req, res) {
 				res.json({ redirect: '/user/update'})
 			})
 			.failure(function(error) {
-		       auth.error(res, error );
+		       return res.json({ error: error }); 
 			});
 	    }
 	  ]);
@@ -115,7 +124,7 @@ exports.unlink = function(req, res, attributes) {
 			res.redirect('/user/update');
 		})
 		.failure(function(error) {
-	       auth.error(res, error );
+	       return res.json({ error: error }); 
 		});
 	}
 };

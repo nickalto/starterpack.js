@@ -46,42 +46,43 @@ block content
 
         button.btn.btn-lg.btn-primary.btn-block.sign-in.update-user(type="submit") Update
 
-      form.form-horizontal.form-signin(action="/user/password" method="POST")
-        h2.form-signin-heading Update Password
+      if (user.password !== 'social_account')
+        form.form-horizontal.form-signin(action="/user/password" method="POST")
+          h2.form-signin-heading Update Password
+          br
+          .form-group
+            label.col-sm-2.control-label(for='old_password') Current
+            .col-sm-10
+              input.form-control(type="password" id="old_password" placeholder="Old Password" required="" autofocus="" autocomplete="off" name="old_password" )
+
+          .form-group
+           label.col-sm-2.control-label(for='new_password') New
+           .col-sm-10
+             input.form-control(type="password" id="new_password" placeholder="New Password" required="" autofocus="" autocomplete="off" name="new_password" )
+
+          .form-group
+           label.col-sm-2.control-label(for='confirm_password') New
+           .col-sm-10
+             input.form-control(type="password" id="confirm_password" placeholder="Confirm New Password" required="" autofocus="" autocomplete="off" name="confirm_password" )
+
+          button.btn.btn-lg.btn-primary.btn-block.sign-in.update-user(type="submit") Update 
+
+
+        h2 Link Accounts
         br
-        .form-group
-          label.col-sm-2.control-label(for='old_password') Current
-          .col-sm-10
-            input.form-control(type="password" id="old_password" placeholder="Old Password" required="" autofocus="" autocomplete="off" name="old_password" )
+        a.btn.btn-social.btn-twitter(href="#{user.twitter_uid !== null ? '/twitter/unlink' : '/auth/twitter'}" class="#{user.twitter_uid !== null ? 'linked' : ''}")
+          i.fa.fa-twitter 
 
-        .form-group
-         label.col-sm-2.control-label(for='new_password') New
-         .col-sm-10
-           input.form-control(type="password" id="new_password" placeholder="New Password" required="" autofocus="" autocomplete="off" name="new_password" )
+        a.btn.btn-social.btn-facebook(href="#{user.facebook_uid !== null ? '/facebook/unlink' : '/auth/facebook'}" class="#{user.facebook_uid !== null ? 'linked' : ''}")
+          i.fa.fa-facebook 
 
-        .form-group
-         label.col-sm-2.control-label(for='confirm_password') New
-         .col-sm-10
-           input.form-control(type="password" id="confirm_password" placeholder="Confirm New Password" required="" autofocus="" autocomplete="off" name="confirm_new_password" )
+        a.btn.btn-social.btn-google-plus(href="#{user.google_uid !== null ? '/google/unlink' : '/auth/google'}"  class="#{user.google_uid !== null ? 'linked' : ''}")
+          i.fa.fa-google-plus  
 
-        button.btn.btn-lg.btn-primary.btn-block.sign-in.update-user(type="submit") Update 
+        a.btn.btn-social.btn-github(href="#{user.github_uid !== null ? '/github/unlink' : '/auth/github'}"  class="#{user.github_uid !== null ? 'linked' : ''}")
+          i.fa.fa-github
+        br 
+        br
 
-      h2 Link Accounts
-      br
-      a.btn.btn-social.btn-twitter(href="#{user.twitter_uid !== null ? '/twitter/unlink' : '/auth/twitter'}" class="#{user.twitter_uid !== null ? 'linked' : ''}")
-        i.fa.fa-twitter 
-
-      a.btn.btn-social.btn-facebook(href="#{user.facebook_uid !== null ? '/facebook/unlink' : '/auth/facebook'}" class="#{user.facebook_uid !== null ? 'linked' : ''}")
-        i.fa.fa-facebook 
-
-      a.btn.btn-social.btn-google-plus(href="#{user.google_uid !== null ? '/google/unlink' : '/auth/google'}"  class="#{user.google_uid !== null ? 'linked' : ''}")
-        i.fa.fa-google-plus  
-
-      a.btn.btn-social.btn-github(href="#{user.facebook_uid !== null ? '/github/unlink' : '/auth/github'}"  class="#{user.github_uid !== null ? 'linked' : ''}")
-        i.fa.fa-github
-
-
-      br
-      br
       form.form-signin(action="/user/delete" method="POST")
         button.btn.btn-lg.btn-danger.btn-block.sign-in(type="submit") Delete User
