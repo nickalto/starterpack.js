@@ -29,7 +29,7 @@ block content
       ### Getting Started
       To get started there are a few things you'll need to do
 
-        - Make sure evertyhing is installed (SASS, npm install, mySQL, etc)
+        - Make sure everything is installed (SASS, npm install, mySQL, etc)
         - Update sql.js with your database credentials
         - Update secrets.js with your application specific secrets
         - (optional) Generate certificate.pem, certrequest.csr and privatekey.pem for self-signed ssl
@@ -49,39 +49,39 @@ block content
       For social authentication, the approach is fairly simple. The API keys for social services are stored in db/passport/secrets.js, you will need to populate these with your own keys. Instructions on populating these keys please refer to the following sections for each service. I'll try to keep these instructions as up to date as possible.
 
       ### Facebook
-      > In order to integrate Facebook authentiction there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
+      > In order to integrate Facebook authentication there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
 
       > - Navigate to [developers.facebook.com/apps](https://developers.facebook.com/apps/) and create a new application
-      >   - There are a few additional steps to verify youself as a developer - sms verification, etc. 
+      >   - There are a few additional steps to verify yourself as a developer - SMS verification, etc. 
       > - If you're working off localhost make sure to Settings -> Add Platform -> Website -> Site Url: http://127.0.0.1:3000/
-      > - Copy App ID and App Secret into db/passport/secrets.js 
+      > - Copy **App ID** and **App Secret** into db/passport/secrets.js 
 
       ### Twitter
-      > In order to integrate Twitter authentiction there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
+      > In order to integrate Twitter authentication there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
 
       > - Navigate to [apps.twitter.com](https://apps.twitter.com/) and create a new application
       > - Set callback URL to http://127.0.0.1:3000/auth/twitter/callback
       > - Check box in order to allow this application to be used with _Sign in with Twitter_
-      > - Copy API Key and API Secret into db/passport/secrets.js
+      > - Copy **API Key** and **API Secret** into db/passport/secrets.js
 
       ### Google
-      > In order to integrate Google authentiction there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
+      > In order to integrate Google authentication there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
 
       > - Navigate to [console.developers.google.com](https://console.developers.google.com/project) and create a new project
       > - Under API/Auth -> Credentials and create a _Client ID for web application_
       > - For localhost set _Redirect URIs:_ http://127.0.0.1:3000/auth/google/callback, as well as _Javascript Origins:_ http://localhost:3000/
-      > - Copy Client ID and clientSecret into db/passport/secrets.js
+      > - Copy **Client ID** and **Client Secret** into db/passport/secrets.js
       > - Authentication strategy is currently set to G+ login (https://www.googleapis.com/auth/plus.login) but other strategies are [available](https://developers.google.com/+/api/oauth)
 
       ### Github
-      > In order to integrate gitHub authentiction there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
+      > In order to integrate gitHub authentication there are a few steps to follow. _Instructions are up to date as of (4/7/14)_:
 
       > - Log into to GitHub -> Settings -> Applications -> _Register New application_
       > - Set callback URL to http://127.0.0.1:3000/auth/github/callback
-      > - Copy Client ID and Client Secret into db/passport/secrets.js
+      > - Copy **Client ID** and **Client Secret** into db/passport/secrets.js
 
       ### Other Providers
-      > If you wish to link other providers, you can leverage the current social authentication strategies to work for you. Secrets are located in db/passport/secrets.js, and authentication strategies for passport are located in db/passport/passport.js. The authentication strategies shouldn't be too much different from one another so you can leverage the other strategies as a structure for how to authentication with new providers. 
+      > If you wish to link other providers, you can leverage the current social authentication strategies to work for you. API keys are located in db/passport/secrets.js, and authentication strategies for passport are located in db/passport/passport.js. 
 
     br
     hr
@@ -117,15 +117,15 @@ block content
       >           - _authentication.js_ - authentication routes, social account linking/unlinking etc. 
 
       >    - **config**
-      >           - **ssl** - optional directory to store ssl certificatess
+      >           - **ssl** - optional directory to store ssl certificates
       >           - _config.js_ - application configuration - initializing passport, sessions, jade view engine, etc. 
 
       >    - **public**
       >           - **css** - currently using yeti bootstrap theme with customizations in custom_styles.scss
       >           - **js** - bootstrap, jquery, and postHelper - a helper function for ajax posts
-      >           - **views** - jade views inherenting from layout.jade and navigation.jade
+      >           - **views** - jade views inheriting from layout.jade and navigation.jade
 
-      >    - _router.js_ - node app, where we initialize server with configurations and initilize routes.
+      >    - _router.js_ - node app, where we initialize server with configurations and initialize routes.
 
 
     br
