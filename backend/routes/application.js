@@ -32,7 +32,7 @@
  */
  
 exports.home = function(req, res) {
-	res.render('Home', {
+	res.render('home', {
     title: 'Home', 
     nav_class: 'navbar-home',
     nav_links: [
@@ -45,7 +45,7 @@ exports.home = function(req, res) {
 };
 
 exports.setup = function(req, res) {
-	res.render('Setup', {
+	res.render('setup', {
     title: 'Setup', 
     nav_class: 'navbar-setup',
     nav_links: [
