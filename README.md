@@ -1,11 +1,10 @@
 ![Alt](https://scontent-a-sea.xx.fbcdn.net/hphotos-ash3/t1/1779848_10152232901170932_1997452623_n.jpg)
-Starterpack.js 
+[Starterpack.js](http://starterpackjs.com)
 =================
 Simple Node.js Authentication. Write less boilerplate. 
 
-You can see the site live at (Starterpack.js)[http://starterpackjs.com]
+You can see the site live at [Starterpack.js](http://starterpackjs.com)
 
-#Starterpack.js#
 > All you need to get started is this framework and an idea. With the simplicity of Node.js, the awesomeness of SQL and authentication courtesy of Passport.js you don't have to bother with boilerplate.  
 
 ##Stack##
