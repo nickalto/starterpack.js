@@ -39,6 +39,7 @@ exports.home = function(req, res) {
       { title: 'Home', href: '/home'},
     	{ title: 'Setup', href: '/setup'},
     	{ title: 'Update User', href: '/user/update'},
+      { title: 'GitHub Repo', href: 'http://www.github.com/nickalto/starterpack.js'},
 		  { title: 'Logout', href: '/logout'}
     ]
   });
@@ -52,6 +53,7 @@ exports.setup = function(req, res) {
     	{ title: 'Home', href: '/home'},
       { title: 'Setup', href: '/setup'},
     	{ title: 'Update User', href: '/user/update'},
+      { title: 'GitHub Repo', href: 'http://www.github.com/nickalto/starterpack.js'},
 		  { title: 'Logout', href: '/logout'}
     ]
   });
@@ -64,6 +66,7 @@ exports.login = function(req, res) {
     	nav_links: [
         { title: 'Home', href: '/home'},
     		{ title: 'Create User', href: '/create'},
+        { title: 'GitHub Repo', href: 'http://www.github.com/nickalto/starterpack.js'},
     	],
       user: req.user
   	});
@@ -77,6 +80,7 @@ exports.createUser = function(req, res) {
 	    ],
     	nav_links: [
     		{ title: 'Login', href: '/login'},
+        { title: 'GitHub Repo', href: 'http://www.github.com/nickalto/starterpack.js'},
     	]
   	});
 };
@@ -91,6 +95,7 @@ exports.updateUser = function(req, res) {
         { title: 'Home', href: '/home'},
         { title: 'Setup', href: '/setup'},
         { title: 'Update User', href: '/user/update'},
+        { title: 'GitHub Repo', href: 'http://www.github.com/nickalto/starterpack.js'},
         { title: 'Logout', href: '/logout'}      
       ],
       user: req.user
