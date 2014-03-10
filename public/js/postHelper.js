@@ -19,7 +19,7 @@
       form = $(target.closest('form'));
       e.preventDefault();
       $('.error').remove();
-      $('.label-error').removeClass('label_error');
+      $('.label-error').removeClass('label-error');
       form.find('form-group').removeClass('has-error');
       _ref = form.find('input');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {

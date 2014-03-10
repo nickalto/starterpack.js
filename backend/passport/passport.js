@@ -60,7 +60,13 @@ exports.localAuthentication = function(req, res) {
     },
     // encrypt password and pass it to create user
     function encryptPassword(callback) {
-      exports.hashPassword(req.body.password, callback)
+      if(req.body.password === req.body.confirm_password) { 
+        exports.hashPassword(req.body.password, callback)
+      } else {
+        return res.json({ 
+          error: { confirm_password:'Passwords do not match' }
+        });
+      }
     },
     // create user with hashed password
     function createUser(hashed_password, callback) {

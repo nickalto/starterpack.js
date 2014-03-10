@@ -13,7 +13,7 @@ class @PostHelper
 
     # remove errors from page
     $('.error').remove()
-    $('.label-error').removeClass('label_error')
+    $('.label-error').removeClass('label-error')
     form.find('form-group').removeClass('has-error')
 
     # validate form
