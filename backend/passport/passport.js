@@ -29,11 +29,16 @@ passport.deserializeUser(function(id, done) {
 
 // Use bcrypt to hash users plaintext password - plaintext is bad - hashed is good - bcrypt is great
 exports.hashPassword = function (plaintext_password, callback) {
-  bcrypt.hash(plaintext_password, 5, function(err, password) {
-      if(err) {
+  bcrypt.genSalt(10, function(err, salt) {
+    if (err) {
+      return new Error('backend/passport/passport.js: bcrypt salting error');
+    }
+    bcrypt.hash(plaintext_password, salt, function(error, password) {
+      if(error) {
         return new Error('backend/passport/passport.js: bcrypt hashing error');
       }
       callback(null, password);
+    });
   });
 }
 
